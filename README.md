@@ -253,5 +253,6 @@ BIM/GIS‑Enabled Permit Submissions: ISO 19650 (BIM data exchange) and OGC Cit
 
 Risk‑ and Performance‑Based Permitting: Frameworks like RCRA tiered permits or EPA’s sector‑based air permits focus resources on higher‑risk sources while granting blanket coverage to low‑risk activities.
 
-
+BIM Level 2 was a UK-defined benchmark for collaborative BIM working, focusing on federated models, shared information through a CDE, and defined data structures, originally based on the PAS 1192 standards.
+ISO 19650 is the international standard that has adopted, refined, and formalized the principles of BIM Level 2. It provides a globally recognized framework for managing information throughout the asset lifecycle using BIM. Complying with ISO 19650 is now the standard way to implement the processes and achieve the outcomes previously associated with BIM Level 2.
 
