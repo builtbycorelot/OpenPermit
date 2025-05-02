@@ -213,6 +213,7 @@ Culminate projects, comments, feedback, Sponsors, collaborators: Virginia Munici
 - **Occupational Safety and Health Administration (OSHA) (n.d.).** [Standard Number 1926.1205 – Permitting Process](https://www.osha.gov/laws-regs/regulations/standardnumber/1926/1926.1205)  
   Defines permitting processes for construction-related safety regulations.  
 
+https://link.springer.com/chapter/10.1007/978-3-031-37189-9_32
 
 Research:
 FAST‑41 Permit Standards & Guidance
