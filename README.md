@@ -16,10 +16,7 @@ Interoperable Data Layer.
 
 Maintain state-of-the-art - maximal reliability, maximal security, standards-based-interoperability. 
 
-Include MCP, blockchain, traditional standards, functional organization. 
-
-Culminate projects, comments, feedback, Sponsors, collaborators: Virginia Municipalities. 
-
+Culminate projects, comments, feedback, Sponsors, collaborators: Local/State/Federal Permitting Agencies
 
 ## References
 
