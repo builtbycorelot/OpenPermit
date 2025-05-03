@@ -16,7 +16,7 @@ Interoperable Data Layer.
 
 Maintain state-of-the-art - maximal reliability, maximal security, standards-based-interoperability. 
 
-Culminate Projects, Comments, Feedback, Sponsors, Sollaborators: Local/State/Federal Permitting Agencies
+Culminate Projects, Comments, Feedback, Sponsors, Collaborators: Local/State/Federal Permitting Agencies
 
 ## References
 
