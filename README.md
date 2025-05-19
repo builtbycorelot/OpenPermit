@@ -18,6 +18,12 @@ Maintain state-of-the-art - maximal reliability, maximal security, standards-bas
 
 Culminate Projects, Comments, Feedback, Sponsors, Collaborators: Local/State/Federal Permitting Agencies
 
+## Workflow
+
+The [workflow.jsonld](workflow/workflow.jsonld) file defines a simple digital permit process.
+It links to standards such as [BLDS](https://permitdata.org/) for application data and
+[IFC](https://technical.buildingsmart.org/standards/ifc/) for building models used in review.
+
 ## References
 
 ### Government and Policy Frameworks

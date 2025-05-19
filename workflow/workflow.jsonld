@@ -1,0 +1,39 @@
+{
+  "@context": {
+    "@vocab": "https://openpermit.org/ontologies/openpermit#",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "blds": "https://permitdata.org/",
+    "ifc": "https://technical.buildingsmart.org/standards/ifc/"
+  },
+  "@id": "op:DigitalPermitWorkflow",
+  "@type": "schema:HowTo",
+  "dcterms:title": "Digital Permit Processing Workflow",
+  "dcterms:conformsTo": [
+    "blds:Building_and_Land_Development_Specification",
+    "ifc:IFC_Schema_Specification"
+  ],
+  "schema:step": [
+    {
+      "@type": "schema:HowToStep",
+      "schema:position": 1,
+      "schema:name": "Application Submission",
+      "schema:description": "Applicant submits permit data conforming to BLDS.",
+      "requiresDocument": "blds:PermitApplication"
+    },
+    {
+      "@type": "schema:HowToStep",
+      "schema:position": 2,
+      "schema:name": "BIM Model Upload",
+      "schema:description": "Design models in IFC format are uploaded for review.",
+      "requiresDocument": "ifc:IFCModel"
+    },
+    {
+      "@type": "schema:HowToStep",
+      "schema:position": 3,
+      "schema:name": "Review and Approval",
+      "schema:description": "Permit authority reviews provided documents and issues a permit.",
+      "requiresDocument": "op:PermitDocument"
+    }
+  ]
+}
