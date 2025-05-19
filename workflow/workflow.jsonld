@@ -1,0 +1,53 @@
+{
+  "@context": {
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/"
+  },
+  "@type": "schema:ItemList",
+  "schema:name": "Generic Permit Workflow",
+  "dcterms:source": "https://github.com/USDAForestService/fs-open-forest-platform",
+  "schema:itemListElement": [
+    {
+      "@type": "schema:CreateAction",
+      "@id": "#application-submission",
+      "schema:name": "Application Submission"
+    },
+    {
+      "@type": "schema:PayAction",
+      "@id": "#fee-payment",
+      "schema:name": "Fee Payment",
+      "schema:previousItem": { "@id": "#application-submission" }
+    },
+    {
+      "@type": "schema:ReviewAction",
+      "@id": "#plan-review",
+      "schema:name": "Plan Review",
+      "schema:object": { "@type": "schema:Document" },
+      "schema:previousItem": { "@id": "#fee-payment" }
+    },
+    {
+      "@type": ["schema:AuthorizeAction", "IssueAction"],
+      "@id": "#permit-issuance",
+      "schema:name": "Permit Issuance",
+      "schema:previousItem": { "@id": "#plan-review" }
+    },
+    {
+      "@type": "schema:InspectAction",
+      "@id": "#initial-inspection",
+      "schema:name": "Initial Inspection",
+      "schema:previousItem": { "@id": "#permit-issuance" }
+    },
+    {
+      "@type": "schema:InspectAction",
+      "@id": "#final-inspection",
+      "schema:name": "Final Inspection",
+      "schema:previousItem": { "@id": "#initial-inspection" }
+    },
+    {
+      "@type": "schema:AuthorizeAction",
+      "@id": "#final-approval",
+      "schema:name": "Final Approval and Permit Closure",
+      "schema:previousItem": { "@id": "#final-inspection" }
+    }
+  ]
+}
