@@ -1,0 +1,11 @@
+{
+  "@context": {
+    "@vocab": "https://openpermit.org/ontologies/openpermit#"
+  },
+  "@id": "https://openpermit.org/workflow/example",
+  "@type": "Permit",
+  "hasApplication": {
+    "@type": "Application",
+    "description": "Sample application linked from the workflow"
+  }
+}

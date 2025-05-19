@@ -25,3 +25,18 @@ contains placeholder content that can be replaced with real implementations.
 ├── LICENSE
 └── README.md
 ```
+
+## Generating the Example Ontology
+
+The `ontology` folder includes a small OWL file and a helper script for
+converting it to JSON-LD. To generate `workflow/workflow.jsonld` run:
+
+```bash
+pip install rdflib
+python ontology/generate_ontology.py
+```
+
+The script loads `ontology/open_data_ontology.owl` and writes a JSON-LD
+representation in the repository's `workflow` directory. The produced
+`workflow.jsonld` aligns with the classes and properties defined in the OWL
+example.
