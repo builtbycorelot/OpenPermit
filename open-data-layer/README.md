@@ -1,3 +1,10 @@
+# Open Data Layer
+
+This directory contains reference materials and sample files for the OpenPermit data layer.
+It mirrors the structure described in the project documentation.  Each subfolder
+contains placeholder content that can be replaced with real implementations.
+
+```
 ├── schema/
 │   ├── blds.json
 │   ├── ifc.json
@@ -17,3 +24,4 @@
 ├── .gitignore
 ├── LICENSE
 └── README.md
+```
