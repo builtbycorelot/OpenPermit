@@ -1,0 +1,10 @@
+{
+  "name": "openpermit",
+  "version": "0.1.0",
+  "description": "OpenPermit worker demonstration and utilities",
+  "main": "node.js",
+  "scripts": {
+    "start": "node node.js"
+  },
+  "license": "MIT"
+}
