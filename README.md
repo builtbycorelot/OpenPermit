@@ -1,10 +1,17 @@
 # OpenPermit
 
+[![CI](https://github.com/builtbycorelot/OpenPermit/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/builtbycorelot/OpenPermit/actions/workflows/test.yml)
+
 Permitting - Distilled for Efficiency, Simplicity, interoperability, speed and security. 
 
 Proposing an efficient method for municipal entities to host and interact with businesses/individuals.
 
 Please comment/contribute/share/join!
+
+### Build/Test/Live
+- [ ] **Build**
+- [![CI](https://github.com/builtbycorelot/OpenPermit/actions/workflows/test.yml/badge.svg?branch=main)] **Test**
+- [ ] **Live**
 
 Why this matters:
 
