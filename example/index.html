@@ -128,6 +128,9 @@
       });
       
       document.getElementById('createCrosswalkBtn').addEventListener('click', async () => {
++        const btn = document.getElementById('createCrosswalkBtn');
++        btn.disabled = true;
++        btn.textContent = 'Creating...';
         try {
           outputEl.textContent = 'Creating crosswalk...';
           
@@ -157,6 +160,10 @@
           outputEl.textContent = JSON.stringify(crosswalk, null, 2);
         } catch (error) {
           outputEl.textContent = `Error: ${error.message}`;
++          console.error('Crosswalk creation error:', error);
+        } finally {
++          btn.disabled = false;
++          btn.textContent = 'Create Crosswalk';
         }
       });
     });
