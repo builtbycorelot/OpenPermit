@@ -145,3 +145,6 @@ self.addEventListener('message', async event => {
   }
 });
 
+// Signal that the worker is ready to receive messages
+self.postMessage({ type: 'READY' });
+
