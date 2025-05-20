@@ -17,6 +17,8 @@ Interoperable Data Layer.
 Maintain state-of-the-art - maximal reliability, maximal security, standards-based-interoperability. 
 
 Culminate Projects, Comments, Feedback, Sponsors, Collaborators: Local/State/Federal Permitting Agencies
+For setup instructions and a demo, see [GETTING_STARTED.md](GETTING_STARTED.md).
+You can also view the hosted demo at [index.md](index.md) when this repository is served with GitHub Pages.
 
 ## References
 
