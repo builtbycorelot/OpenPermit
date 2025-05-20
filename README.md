@@ -6,13 +6,18 @@ Proposing an efficient method for municipal entities to host and interact with b
 
 Please comment/contribute/share/join!
 
+## Table of Contents
+- [Interoperable Data Layer](#interoperable-data-layer)
+- [References](#references)
+- [Security](#security)
+
 Why this matters:
 
 https://subnational.doingbusiness.org/en/data/exploretopics/dealing-with-construction-permits/why-matters
 
 The basics:
 
-Interoperable Data Layer.
+## Interoperable Data Layer
 - EPA Permitting schemas available in `openpermit/standards/epa-permitting`.
 - Generate NIEM 6.0 JSON Schemas with `python scripts/niem6_build_schemas.py`.
 
@@ -29,6 +34,9 @@ A summary of NIEM alignment and augmentation is available in
 Maintain state-of-the-art - maximal reliability, maximal security, standards-based-interoperability.
 
 Culminate Projects, Comments, Feedback, Sponsors, Collaborators: Local/State/Federal Permitting Agencies
+
+## Security
+See [SECURITY.md](SECURITY.md) for the project's security policy.
 
 ## References
 
