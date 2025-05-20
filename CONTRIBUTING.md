@@ -11,6 +11,11 @@ We love your input! We want to make contributing to OpenPermit as easy and trans
 ## We Develop with Github
 We use GitHub to host code, to track issues and feature requests, as well as accept pull requests.
 
+## Setting up for Testing
+
+Run `npm install` before executing `npm test` or opening the browser test page. This installs all required dependencies.
+
+
 ## Pull Request Process
 1. Fork the repo and create your branch from `main`
 2. If you've added code that should be tested, add tests
