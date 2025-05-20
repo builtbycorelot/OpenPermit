@@ -36,3 +36,11 @@ coverage. Install it with:
 ```
 pip install jsonschema
 ```
+
+### Testing
+
+Run the Python unit tests with [pytest](https://pytest.org/):
+
+```bash
+pytest
+```

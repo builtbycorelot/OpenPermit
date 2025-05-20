@@ -97,6 +97,14 @@ example/
 npm run build
 ```
 
+### Running Tests
+
+Execute the JavaScript unit tests with:
+
+```bash
+npm test
+```
+
 ## Contributing
 
 Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
