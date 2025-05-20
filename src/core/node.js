@@ -55,6 +55,21 @@ class Node {
    * @returns {Node} - The node instance for chaining
    */
   addRelationship(type, target, metadata = {}) {
+    if (!type || typeof type !== 'string') {
+      throw new Error('Relationship type must be a non-empty string');
+    }
+
+    if (!target || typeof target !== 'string') {
+      throw new Error('Relationship target must be a non-empty string');
+    }
+
+    const duplicate = this.relationships.some(
+      (rel) => rel.type === type && rel.target === target
+    );
+    if (duplicate) {
+      return this;
+    }
+
     this.relationships.push({
       type,
       target,
