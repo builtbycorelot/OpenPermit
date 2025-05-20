@@ -1,0 +1,9 @@
+{
+  "name": "openpermit",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "echo 'build step placeholder'",
+    "test": "echo 'running tests'"
+  }
+}
