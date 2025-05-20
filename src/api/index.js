@@ -31,7 +31,11 @@ class OpenPermit {
     if (this.worker) return;
     
     // Create worker
-    this.worker = new Worker(this.options.workerPath);
+    try {
+      this.worker = new Worker(this.options.workerPath);
+    } catch (error) {
+      throw new Error(`Failed to initialize worker: ${error.message}`);
+    }
     
     // Set up message handler
     this.worker.addEventListener('message', event => {
