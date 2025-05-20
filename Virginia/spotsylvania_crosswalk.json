@@ -1,7 +1,8 @@
 {
   "@context": {
     "blds": "https://permitdata.org/ns#",
-    "spotsylvania": "https://www.spotsylvania.va.us/"
+    "spotsylvania": "https://www.spotsylvania.va.us/",
+    "schema": "https://schema.org/"
   },
   "@id": "spotsylvania:BLDSCrosswalk",
   "@type": "schema:Dataset",
