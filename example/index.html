@@ -120,18 +120,24 @@
           outputEl.textContent = 'Validating node...';
           
           // Create a node to validate
-          const node = await client.createNode({
-            id: `node-${Date.now()}`,
-            type: 'RequirementNode',
-            metadata: {
-              name: 'Seismic Requirements',
-              description: 'Requirements for seismic design'
-            }
-          });
-          
+          // Use a helper function to avoid duplicate code
+          function createDemoNode(type, name) {
+            return client.createNode({
+              id: `${type.toLowerCase()}-${Date.now()}`,
+              type: type,
+              metadata: {
+                name: name,
+                description: `Demo ${name} node`
+              }
+            });
+          }
+
+          // Create a node to validate using the helper function
+          const node = await createDemoNode('RequirementNode', 'Seismic Requirements');
+
           // Validate the node
           const results = await client.validateNode(node);
-          
+
           outputEl.textContent = JSON.stringify(results, null, 2);
         } catch (error) {
           outputEl.textContent = `Error: ${error.message}`;
