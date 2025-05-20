@@ -69,13 +69,24 @@
     // Demo script
     document.addEventListener('DOMContentLoaded', async () => {
       const outputEl = document.getElementById('output');
-      const client = new OpenPermit({
-        workerPath: '../src/core/worker.js'
-      });
-      
-      // Initialize client
-      await client.init();
-      
+      try {
+        const client = new OpenPermit({
+          workerPath: '../src/core/worker.js'
+        });
+        
+        // Initialize client with timeout
+        await Promise.race([
+          client.init(),
+          new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('Initialization timeout')), 5000)
+          )
+        ]);
+      } catch (error) {
+        outputEl.textContent = `Initialization Error: ${error.message}`;
+        return; // Exit early if initialization fails
+      }
+
+      // …rest of your code…
       // Set up button handlers
       document.getElementById('createNodeBtn').addEventListener('click', async () => {
         try {
