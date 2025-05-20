@@ -8,8 +8,9 @@ Please comment/contribute/share/join!
 
 ## Table of Contents
 - [Interoperable Data Layer](#interoperable-data-layer)
-- [References](#references)
+- [Running Tests](#running-tests)
 - [Security](#security)
+- [References](#references)
 
 Why this matters:
 
@@ -34,6 +35,23 @@ A summary of NIEM alignment and augmentation is available in
 Maintain state-of-the-art - maximal reliability, maximal security, standards-based-interoperability.
 
 Culminate Projects, Comments, Feedback, Sponsors, Collaborators: Local/State/Federal Permitting Agencies
+
+## Running Tests
+The unit tests use Mocha and Chai in a Node.js environment.
+
+1. Install dependencies:
+
+   ```bash
+   npm install mocha chai
+   ```
+
+2. Execute the tests:
+
+   ```bash
+   npx mocha tests/test.js
+   ```
+
+The suite creates a sample node with the OpenPermit API and validates it.
 
 ## Security
 See [SECURITY.md](SECURITY.md) for the project's security policy.
