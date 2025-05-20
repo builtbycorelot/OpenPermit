@@ -10,7 +10,7 @@ Please comment/contribute/share/join!
 - [Interoperable Data Layer](#interoperable-data-layer)
 - [References](#references)
 - [Security](#security)
-
+![CI](https://github.com/builtbycorelot/OpenPermit/actions/workflows/ci.yml/badge.svg)
 Why this matters:
 
 https://subnational.doingbusiness.org/en/data/exploretopics/dealing-with-construction-permits/why-matters
