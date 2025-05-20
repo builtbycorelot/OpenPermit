@@ -56,7 +56,15 @@
     <pre id="output"></pre>
   </div>
   
-  <script src="../src/api/index.js"></script>
+  <script type="module">
+    // Dynamically import the module with error handling
+    import('../src/api/index.js')
+      .catch(err => {
+        console.error('Failed to load OpenPermit module:', err);
+        document.getElementById('output').textContent =
+          'Error: Failed to load OpenPermit module. Check console for details.';
+      });
+  </script>
   <script>
     // Demo script
     document.addEventListener('DOMContentLoaded', async () => {
