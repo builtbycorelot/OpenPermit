@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenPermit Node Framework Demo</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      line-height: 1.5;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    pre {
+      background: #f5f5f5;
+      padding: 10px;
+      border-radius: 4px;
+      overflow: auto;
+    }
+    button {
+      background: #0066cc;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+    button:hover {
+      background: #0052a3;
+    }
+    .output {
+      margin-top: 20px;
+    }
+    h1 {
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>OpenPermit Node Framework Demo</h1>
+  
+  <div>
+    <button id="createNodeBtn">Create Node</button>
+    <button id="validateNodeBtn">Validate Node</button>
+    <button id="createCrosswalkBtn">Create Crosswalk</button>
+  </div>
+  
+  <div class="output">
+    <h3>Output:</h3>
+    <pre id="output"></pre>
+  </div>
+  
+  <script src="../src/api/index.js"></script>
+  <script>
+    // Demo script
+    document.addEventListener('DOMContentLoaded', async () => {
+      const outputEl = document.getElementById('output');
+      const client = new OpenPermit({
+        workerPath: '../src/core/worker.js'
+      });
+      
+      // Initialize client
+      await client.init();
+      
+      // Set up button handlers
+      document.getElementById('createNodeBtn').addEventListener('click', async () => {
+        try {
+          outputEl.textContent = 'Creating node...';
+          
+          const node = await client.createNode({
+            id: `node-${Date.now()}`,
+            type: 'RequirementNode',
+            metadata: {
+              name: 'Seismic Requirements for Fire Protection Systems',
+              description: 'Requirements for seismic bracing of fire protection systems',
+              version: '1.0.0',
+              source: 'https://codes.iccsafe.org/content/IBC2021P2',
+              domain: 'FireProtection'
+            },
+            attributes: {
+              applicability: 'All Seismic Design Categories C through F',
+              codeSection: 'Section 717',
+              year: 2021
+            }
+          });
+          
+          outputEl.textContent = JSON.stringify(node, null, 2);
+        } catch (error) {
+          outputEl.textContent = `Error: ${error.message}`;
+        }
+      });
+      
+      document.getElementById('validateNodeBtn').addEventListener('click', async () => {
+        try {
+          outputEl.textContent = 'Validating node...';
+          
+          // Create a node to validate
+          const node = await client.createNode({
+            id: `node-${Date.now()}`,
+            type: 'RequirementNode',
+            metadata: {
+              name: 'Seismic Requirements',
+              description: 'Requirements for seismic design'
+            }
+          });
+          
+          // Validate the node
+          const results = await client.validateNode(node);
+          
+          outputEl.textContent = JSON.stringify(results, null, 2);
+        } catch (error) {
+          outputEl.textContent = `Error: ${error.message}`;
+        }
+      });
+      
+      document.getElementById('createCrosswalkBtn').addEventListener('click', async () => {
+        try {
+          outputEl.textContent = 'Creating crosswalk...';
+          
+          // Create source node
+          const source = await client.createNode({
+            id: `source-${Date.now()}`,
+            type: 'StandardNode',
+            metadata: {
+              name: 'IBC 2021',
+              description: 'International Building Code 2021'
+            }
+          });
+          
+          // Create target node
+          const target = await client.createNode({
+            id: `target-${Date.now()}`,
+            type: 'StandardNode',
+            metadata: {
+              name: 'NFPA 13',
+              description: 'Standard for the Installation of Sprinkler Systems'
+            }
+          });
+          
+          // Create crosswalk
+          const crosswalk = await client.createCrosswalk(source, target);
+          
+          outputEl.textContent = JSON.stringify(crosswalk, null, 2);
+        } catch (error) {
+          outputEl.textContent = `Error: ${error.message}`;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+
