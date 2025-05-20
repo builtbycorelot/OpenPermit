@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>OpenPermit Demo & Tests</title>
+  <style>
+    body{font-family:sans-serif;max-width:960px;margin:auto;padding:1rem;}
+    #log{white-space:pre;border:1px solid #ccc;padding:.5rem;border-radius:6px;height:200px;overflow:auto;}
+    button{margin:.5rem .25rem;padding:.5rem 1rem;border:0;border-radius:4px;cursor:pointer;}
+  </style>
+</head>
+<body>
+  <h1>OpenPermit Interactive Demo</h1>
+
+  <p>Select a demo:</p>
+  <button onclick="loadDemo('workflow/workflow.jsonld')">🏗 Permit Workflow</button>
+  <button onclick="loadDemo('open-data-layer/ontology/open_data_ontology.owl')">🧩 Ontology Example</button>
+
+  <h2>Live JSON preview</h2>
+  <pre id="log">Choose a demo to view the JSON-LD…</pre>
+
+  <script>
+    async function loadDemo(path){
+      const res = await fetch(path);
+      const txt = await res.text();
+      document.getElementById('log').textContent = txt;
+      // rudimentary validation example
+      try{ JSON.parse(txt); console.log('Valid JSON'); }
+      catch(e){ console.warn('Not JSON', e); }
+    }
+  </script>
+
+  <hr>
+  <p>
+    👉  Want to improve this site? Fork the repo and open a PR!<br>
+    🔗  <a href="https://github.com/builtbycorelot/OpenPermit">GitHub repo</a>
+  </p>
+</body>
+</html>
