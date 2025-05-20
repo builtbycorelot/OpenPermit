@@ -429,4 +429,132 @@
     {
       "@id": "spotsylvania:BasementType",
       "@type": "PropertyType",
-      "dcterms:
+      "dcterms:title": "Basement Type",
+      "schema:domainIncludes": [
+        "spotsylvania:ResidentialPermit"
+      ],
+      "schema:rangeIncludes": "schema:Text"
+    },
+    {
+      "@id": "spotsylvania:FoundationType",
+      "@type": "PropertyType",
+      "dcterms:title": "Foundation Type",
+      "schema:domainIncludes": [
+        "spotsylvania:ResidentialPermit",
+        "spotsylvania:CommercialPermit"
+      ],
+      "schema:rangeIncludes": "schema:Text"
+    },
+    {
+      "@id": "spotsylvania:ExteriorWallType",
+      "@type": "PropertyType",
+      "dcterms:title": "Exterior Wall Type",
+      "schema:domainIncludes": [
+        "spotsylvania:ResidentialPermit",
+        "spotsylvania:CommercialPermit"
+      ],
+      "schema:rangeIncludes": "schema:Text"
+    },
+    {
+      "@id": "spotsylvania:RoofingType",
+      "@type": "PropertyType",
+      "dcterms:title": "Roofing Type",
+      "schema:domainIncludes": [
+        "spotsylvania:ResidentialPermit",
+        "spotsylvania:CommercialPermit"
+      ],
+      "schema:rangeIncludes": "schema:Text"
+    },
+    {
+      "@id": "spotsylvania:HeatingFuel",
+      "@type": "PropertyType",
+      "dcterms:title": "Heating Fuel",
+      "schema:domainIncludes": [
+        "spotsylvania:ResidentialPermit"
+      ],
+      "schema:rangeIncludes": "schema:Text"
+    },
+    {
+      "@id": "spotsylvania:AirConditioning",
+      "@type": "PropertyType",
+      "dcterms:title": "Air Conditioning",
+      "schema:domainIncludes": [
+        "spotsylvania:ResidentialPermit",
+        "spotsylvania:CommercialPermit"
+      ],
+      "schema:rangeIncludes": "schema:Boolean"
+    },
+    {
+      "@id": "spotsylvania:HomeOccupation",
+      "@type": "PropertyType",
+      "dcterms:title": "Home Occupation",
+      "schema:domainIncludes": [
+        "spotsylvania:ResidentialPermit"
+      ],
+      "schema:rangeIncludes": "schema:Boolean"
+    },
+    {
+      "@id": "spotsylvania:CurrentUse",
+      "@type": "PropertyType",
+      "dcterms:title": "Current Use",
+      "schema:domainIncludes": [
+        "spotsylvania:CommercialPermit"
+      ],
+      "schema:rangeIncludes": "schema:Text"
+    },
+    {
+      "@id": "spotsylvania:ProposedUse",
+      "@type": "PropertyType",
+      "dcterms:title": "Proposed Use",
+      "schema:domainIncludes": [
+        "spotsylvania:CommercialPermit"
+      ],
+      "schema:rangeIncludes": "schema:Text"
+    },
+    {
+      "@id": "spotsylvania:UseGroup",
+      "@type": "PropertyType",
+      "dcterms:title": "Use Group",
+      "schema:domainIncludes": [
+        "spotsylvania:CommercialPermit"
+      ],
+      "schema:rangeIncludes": "schema:Text"
+    },
+    {
+      "@id": "spotsylvania:ConstructionType",
+      "@type": "PropertyType",
+      "dcterms:title": "Construction Type",
+      "schema:domainIncludes": [
+        "spotsylvania:CommercialPermit"
+      ],
+      "schema:rangeIncludes": "schema:Text"
+    },
+    {
+      "@id": "spotsylvania:NumberOfFullBaths",
+      "@type": "PropertyType",
+      "dcterms:title": "Number of Full Baths",
+      "schema:domainIncludes": [
+        "spotsylvania:CommercialPermit"
+      ],
+      "schema:rangeIncludes": "schema:Integer"
+    },
+    {
+      "@id": "spotsylvania:NumberOfHalfBaths",
+      "@type": "PropertyType",
+      "dcterms:title": "Number of Half Baths",
+      "schema:domainIncludes": [
+        "spotsylvania:CommercialPermit"
+      ],
+      "schema:rangeIncludes": "schema:Integer"
+    },
+    {
+      "@id": "spotsylvania:FuelType",
+      "@type": "PropertyType",
+      "dcterms:title": "Fuel Type",
+      "schema:domainIncludes": [
+        "spotsylvania:CommercialPermit"
+      ],
+      "schema:rangeIncludes": "schema:Text"
+    }
+  ]
+}
