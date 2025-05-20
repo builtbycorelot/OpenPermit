@@ -254,3 +254,7 @@ Risk‑ and Performance‑Based Permitting: Frameworks like RCRA tiered permits 
 BIM Level 2 was a UK-defined benchmark for collaborative BIM working, focusing on federated models, shared information through a CDE, and defined data structures, originally based on the PAS 1192 standards.
 ISO 19650 is the international standard that has adopted, refined, and formalized the principles of BIM Level 2. It provides a globally recognized framework for managing information throughout the asset lifecycle using BIM. Complying with ISO 19650 is now the standard way to implement the processes and achieve the outcomes previously associated with BIM Level 2.
 
+
+## Validation Scripts
+
+Run `validate_repo.py` to execute repository validation steps, including JSON-LD checks for workflows.
