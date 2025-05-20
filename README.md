@@ -14,6 +14,11 @@ The basics:
 
 Interoperable Data Layer.
 - EPA Permitting schemas available in `openpermit/standards/epa-permitting`.
+- Generate NIEM 6.0 JSON Schemas with `python scripts/niem6_build_schemas.py`.
+
+### Building NIEM Schemas
+Run `python scripts/niem6_build_schemas.py` to generate stub JSON Schema files under `openpermit/schema/niem/6.0/`.
+
 
 A high-level architecture diagram is available in
 [mermaid/architecture.mmd](mermaid/architecture.mmd).
