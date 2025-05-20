@@ -120,11 +120,15 @@ class Node {
 
   /**
    * Set or merge AI parameters on the node
-   * @param {Object} parameters - AI parameters
+   * @param {Object} parameters - AI parameters. Must be a plain object
    * @returns {Node} - The node instance for chaining
    */
   setAIParameters(parameters = {}) {
-    if (typeof parameters !== 'object' || parameters === null) {
+    if (
+      typeof parameters !== 'object' ||
+      parameters === null ||
+      Array.isArray(parameters)
+    ) {
       return this;
     }
 
