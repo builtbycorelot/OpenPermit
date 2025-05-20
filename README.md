@@ -13,6 +13,7 @@ https://subnational.doingbusiness.org/en/data/exploretopics/dealing-with-constru
 The basics:
 
 Interoperable Data Layer.
+- EPA Permitting schemas available in `openpermit/standards/epa-permitting`.
 
 Maintain state-of-the-art - maximal reliability, maximal security, standards-based-interoperability. 
 
