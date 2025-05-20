@@ -8,9 +8,12 @@
 importScripts('./node.js', './constants.js');
 
 /**
- * Validate a node against rules
- * @param {Object} node - Node to validate
- * @returns {Promise<Object>} - Validation results
+ * Asynchronously validates a node object, checking for required fields and returning validation results.
+ *
+ * Converts the input to a Node instance if necessary and verifies the presence of `id` and `type` fields. Returns an object indicating validity, along with arrays of errors, warnings, and informational messages.
+ *
+ * @param {Object} node - The node object to validate.
+ * @returns {Promise<Object>} An object containing `valid`, `errors`, `warnings`, and `info` fields describing the validation outcome.
  */
 async function validateNode(node) {
   // Convert to Node instance if plain object
@@ -51,10 +54,13 @@ async function validateNode(node) {
 }
 
 /**
- * Create a crosswalk between source and target nodes
- * @param {Object} source - Source node
- * @param {Object} target - Target node
- * @returns {Promise<Object>} - Created crosswalk
+ * Asynchronously creates a crosswalk object linking a source node to a target node.
+ *
+ * The crosswalk includes identifiers, node types, default metadata, and an empty mappings array.
+ *
+ * @param {Object} source - The source node object containing at least `id` and `type`.
+ * @param {Object} target - The target node object containing at least `id` and `type`.
+ * @returns {Promise<Object>} A promise that resolves to the created crosswalk object.
  */
 async function createCrosswalk(source, target) {
   // Basic crosswalk structure
