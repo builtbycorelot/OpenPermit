@@ -1,12 +1,11 @@
-
-// src/core/worker.js
+// src/core/worker.node.js
 /**
- * OpenPermit Worker - Web Worker implementation for node processing
- * @module core/worker
+ * OpenPermit Worker - Node.js worker_threads implementation
+ * Mirrors the logic of `worker.js` for Node environments.
  */
 
-// Import core functionality
-importScripts('./node.js', './constants.js');
+const { parentPort } = require('worker_threads');
+const { Node } = require('./node.js');
 
 /**
  * Validate a node against rules
@@ -14,18 +13,15 @@ importScripts('./node.js', './constants.js');
  * @returns {Promise<Object>} - Validation results
  */
 async function validateNode(node) {
-  // Convert to Node instance if plain object
   const nodeInstance = node instanceof Node ? node : Node.fromJSON(node);
-  
-  // Basic validation results structure
+
   const results = {
     valid: true,
     errors: [],
     warnings: [],
     info: []
   };
-  
-  // Validate required fields
+
   if (!nodeInstance.id) {
     results.valid = false;
     results.errors.push({
@@ -33,7 +29,7 @@ async function validateNode(node) {
       message: 'Node ID is required'
     });
   }
-  
+
   if (!nodeInstance.type) {
     results.valid = false;
     results.errors.push({
@@ -41,13 +37,9 @@ async function validateNode(node) {
       message: 'Node type is required'
     });
   }
-  
-  // Simulate async operation for complex validation
+
   await new Promise(resolve => setTimeout(resolve, 10));
-  
-  // In a real implementation, we would run through all validation rules
-  // and check for rule satisfaction
-  
+
   return results;
 }
 
@@ -58,7 +50,6 @@ async function validateNode(node) {
  * @returns {Promise<Object>} - Created crosswalk
  */
 async function createCrosswalk(source, target) {
-  // Basic crosswalk structure
   const crosswalk = {
     id: `crosswalk-${Date.now()}`,
     source: {
@@ -69,7 +60,7 @@ async function createCrosswalk(source, target) {
       nodeType: target.type,
       identifier: target.id
     },
-    type: 'Standard-to-Standard', // Default type
+    type: 'Standard-to-Standard',
     mappings: [],
     metadata: {
       creator: 'system',
@@ -80,71 +71,72 @@ async function createCrosswalk(source, target) {
     },
     validationMethods: []
   };
-  
-  // In a real implementation, we would analyze the source and target
-  // to automatically suggest mappings based on similarities
-  
+
   return crosswalk;
 }
 
 // Set up message handler for the worker
-self.addEventListener('message', async event => {
-  const { action, payload } = event.data;
-  
+parentPort.on('message', async event => {
+  const { action, payload, callbackId } = event;
+
   try {
     switch (action) {
       case 'CREATE_NODE': {
         const node = new Node(
-          payload.id, 
-          payload.type, 
+          payload.id,
+          payload.type,
           payload.metadata
         );
-        
+
         if (payload.attributes) {
           Object.entries(payload.attributes).forEach(([key, value]) => {
             node.addAttribute(key, value);
           });
         }
-        
-        self.postMessage({ 
-          success: true, 
-          node: node.toJSON() 
+
+        parentPort.postMessage({
+          success: true,
+          callbackId,
+          node: node.toJSON()
         });
         break;
       }
-      
+
       case 'VALIDATE_NODE': {
         const results = await validateNode(payload.node);
-        self.postMessage({ 
-          success: true, 
-          results 
+        parentPort.postMessage({
+          success: true,
+          callbackId,
+          results
         });
         break;
       }
-      
+
       case 'CREATE_CROSSWALK': {
         const crosswalk = await createCrosswalk(
-          payload.source, 
+          payload.source,
           payload.target
         );
-        self.postMessage({ 
-          success: true, 
-          crosswalk 
+        parentPort.postMessage({
+          success: true,
+          callbackId,
+          crosswalk
         });
         break;
       }
-      
+
       default:
         throw new Error(`Unknown action: ${action}`);
     }
   } catch (error) {
-    self.postMessage({ 
-      success: false, 
-      error: error.message 
+    parentPort.postMessage({
+      success: false,
+      callbackId,
+      error: error.message
     });
   }
 });
 
 // Notify that the worker setup is complete
-self.postMessage({ type: 'ready' });
+parentPort.postMessage({ type: 'ready' });
 

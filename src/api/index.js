@@ -21,6 +21,7 @@ class OpenPermit {
     this.worker = null;
     this.callbacks = new Map();
     this.callbackId = 0;
+    this._readyResolve = null;
   }
   
   /**
@@ -30,28 +31,41 @@ class OpenPermit {
   async init() {
     if (this.worker) return;
     
+    // Prepare promise that resolves when the worker signals readiness
+    const readyPromise = new Promise(resolve => {
+      this._readyResolve = resolve;
+    });
+
     // Create worker
     this.worker = new Worker(this.options.workerPath);
-    
+
     // Set up message handler
     this.worker.addEventListener('message', event => {
+      if (event.data && event.data.type === 'ready') {
+        if (this._readyResolve) {
+          this._readyResolve();
+          this._readyResolve = null;
+        }
+        return;
+      }
+
       const { callbackId, ...data } = event.data;
-      
+
       if (callbackId && this.callbacks.has(callbackId)) {
         const { resolve, reject } = this.callbacks.get(callbackId);
-        
+
         if (data.success) {
           resolve(data);
         } else {
           reject(new Error(data.error || 'Unknown error'));
         }
-        
+
         this.callbacks.delete(callbackId);
       }
     });
-    
-    // Wait for worker to be ready
-    await new Promise(resolve => setTimeout(resolve, 100));
+
+    // Wait for worker to signal it is ready
+    await readyPromise;
   }
   
   /**
