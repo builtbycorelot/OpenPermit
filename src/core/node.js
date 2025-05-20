@@ -15,14 +15,17 @@ class Node {
    * @param {Object} metadata - Node metadata
    */
   constructor(id, type, metadata = {}) {
+    if (!id) throw new Error('Node id is required');
+    if (!type) throw new Error('Node type is required');
+
     this.id = id;
     this.type = type;
     this.metadata = {
       name: '',
       description: '',
       version: '1.0.0',
-      created: new Date().toISOString(),
-      modified: new Date().toISOString(),
+      created: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'), // Normalize to UTC without milliseconds
+      modified: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'),
       ...metadata
     };
     this.attributes = {};
