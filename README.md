@@ -13,6 +13,7 @@ https://subnational.doingbusiness.org/en/data/exploretopics/dealing-with-constru
 The basics:
 
 Interoperable Data Layer.
+- EPA Permitting schemas available in `openpermit/standards/epa-permitting`.
 
 A high-level architecture diagram is available in
 [mermaid/architecture.mmd](mermaid/architecture.mmd).
