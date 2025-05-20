@@ -108,12 +108,31 @@ class Node {
     if (!this.aiInterface.capabilities.includes(capability)) {
       this.aiInterface.capabilities.push(capability);
     }
-    
+
     this.aiInterface.parameters = {
       ...this.aiInterface.parameters,
       ...parameters
     };
-    
+
+    this.metadata.modified = new Date().toISOString();
+    return this;
+  }
+
+  /**
+   * Set or merge AI parameters on the node
+   * @param {Object} parameters - AI parameters
+   * @returns {Node} - The node instance for chaining
+   */
+  setAIParameters(parameters = {}) {
+    if (typeof parameters !== 'object' || parameters === null) {
+      return this;
+    }
+
+    this.aiInterface.parameters = {
+      ...this.aiInterface.parameters,
+      ...parameters
+    };
+
     this.metadata.modified = new Date().toISOString();
     return this;
   }
@@ -154,60 +173,84 @@ class Node {
    * @returns {Node} - New node instance
    */
   static fromJSON(json) {
+    if (!json || typeof json !== 'object') {
+      throw new Error('Invalid JSON input for Node.fromJSON');
+    }
+
+    const id = json["@id"] || json.id;
+    const type = json["@type"] || json.type;
+
+    if (typeof id !== 'string' || typeof type !== 'string') {
+      throw new Error('Node JSON must include string id and type');
+    }
+
+    const metadata = (typeof json.metadata === 'object' && json.metadata !== null) ? json.metadata : {};
+
     const node = new Node(
-      json["@id"] || json.id,
-      json["@type"] || json.type,
-      json.metadata || {}
+      id,
+      type,
+      metadata
     );
+
+    const originalCreated = node.metadata.created;
+    const originalModified = node.metadata.modified;
     
     // Restore attributes
-    if (json.attributes) {
+    if (json.attributes && typeof json.attributes === 'object') {
       Object.entries(json.attributes).forEach(([key, value]) => {
         node.addAttribute(key, value);
       });
     }
-    
+
     // Restore relationships
-    if (json.relationships) {
+    if (Array.isArray(json.relationships)) {
       json.relationships.forEach(rel => {
-        node.addRelationship(rel.type, rel.target, rel.metadata || {});
+        if (rel && typeof rel === 'object' && typeof rel.type === 'string' && typeof rel.target === 'string') {
+          node.addRelationship(rel.type, rel.target, rel.metadata || {});
+        }
       });
     }
-    
+
     // Restore validation rules
-    if (json.validationRules) {
+    if (Array.isArray(json.validationRules)) {
       json.validationRules.forEach(rule => {
-        node.addValidationRule(
-          rule.ruleType,
-          rule.expression,
-          rule.severity,
-          rule.message
-        );
+        if (rule && typeof rule === 'object') {
+          node.addValidationRule(
+            rule.ruleType,
+            rule.expression,
+            rule.severity,
+            rule.message
+          );
+        }
       });
     }
     
     // Restore AI interface
-    if (json.aiInterface) {
-      if (json.aiInterface.capabilities) {
-        json.aiInterface.capabilities.forEach(capability => {
-          node.addAICapability(capability);
+    if (json.aiInterface && typeof json.aiInterface === 'object') {
+      const ai = json.aiInterface;
+      const params = (ai.parameters && typeof ai.parameters === 'object') ? ai.parameters : {};
+
+      if (Array.isArray(ai.capabilities)) {
+        ai.capabilities.forEach((capability, index) => {
+          if (typeof capability === 'string') {
+            node.addAICapability(capability, index === 0 ? params : {});
+          }
         });
-      }
-      
-      if (json.aiInterface.parameters) {
-        Object.entries(json.aiInterface.parameters).forEach(([key, value]) => {
-          node.aiInterface.parameters[key] = value;
-        });
+      } else if (Object.keys(params).length) {
+        node.setAIParameters(params);
       }
     }
     
     // Restore extensions
-    if (json.extensions) {
+    if (json.extensions && typeof json.extensions === 'object') {
       Object.entries(json.extensions).forEach(([namespace, data]) => {
         node.addExtension(namespace, data);
       });
     }
-    
+
+    if (originalCreated) node.metadata.created = originalCreated;
+    if (originalModified) node.metadata.modified = originalModified;
+
     return node;
   }
 }
