@@ -25,3 +25,14 @@ contains placeholder content that can be replaced with real implementations.
 ├── LICENSE
 └── README.md
 ```
+
+### Schema Validation
+
+Use `validate_schema.py` to check the example JSON files. The script falls back
+to a minimal validator if the [`jsonschema`](https://pypi.org/project/jsonschema/)
+package is missing, but installing the real library provides much more complete
+coverage. Install it with:
+
+```
+pip install jsonschema
+```

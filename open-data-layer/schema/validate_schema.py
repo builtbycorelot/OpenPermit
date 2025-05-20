@@ -10,25 +10,47 @@ except Exception:  # jsonschema not installed
     class ValidationError(Exception):
         pass
 
-    def validate(instance, schema):
-        """Very small subset of JSON Schema validation."""
-        for field in schema.get("required", []):
-            if field not in instance:
-                raise ValidationError(f"Missing required field '{field}'")
-        props = schema.get("properties", {})
-        for key, rules in props.items():
-            if key not in instance:
-                continue
-            value = instance[key]
-            t = rules.get("type")
-            if t == "string" and not isinstance(value, str):
-                raise ValidationError(f"Field '{key}' must be a string")
-            if t == "number" and not isinstance(value, (int, float)):
-                raise ValidationError(f"Field '{key}' must be a number")
-            if t == "array" and not isinstance(value, list):
-                raise ValidationError(f"Field '{key}' must be an array")
-            if t == "object" and not isinstance(value, dict):
-                raise ValidationError(f"Field '{key}' must be an object")
+    def _validate_type(value, expected_type, key):
+        if expected_type == "string" and not isinstance(value, str):
+            raise ValidationError(f"Field '{key}' must be a string")
+        if expected_type == "number" and not isinstance(value, (int, float)):
+            raise ValidationError(f"Field '{key}' must be a number")
+        if expected_type == "integer" and not isinstance(value, int):
+            raise ValidationError(f"Field '{key}' must be an integer")
+        if expected_type == "boolean" and not isinstance(value, bool):
+            raise ValidationError(f"Field '{key}' must be a boolean")
+        if expected_type == "array" and not isinstance(value, list):
+            raise ValidationError(f"Field '{key}' must be an array")
+        if expected_type == "object" and not isinstance(value, dict):
+            raise ValidationError(f"Field '{key}' must be an object")
+
+    def validate(instance, schema, *, _key="root"):
+        """Very small subset of JSON Schema validation with recursion."""
+        expected_type = schema.get("type")
+        if expected_type:
+            _validate_type(instance, expected_type, _key)
+
+        if "enum" in schema and instance not in schema["enum"]:
+            raise ValidationError(
+                f"Field '{_key}' must be one of {schema['enum']}"
+            )
+
+        if expected_type == "object":
+            for field in schema.get("required", []):
+                if field not in instance:
+                    raise ValidationError(
+                        f"Missing required field '{field}' in '{_key}'"
+                    )
+            props = schema.get("properties", {})
+            for key, rules in props.items():
+                if key in instance:
+                    validate(instance[key], rules, _key=key)
+
+        if expected_type == "array":
+            item_schema = schema.get("items")
+            if item_schema:
+                for idx, item in enumerate(instance):
+                    validate(item, item_schema, _key=f"{_key}[{idx}]")
 
 SCHEMAS = {
     "blds.json": {
