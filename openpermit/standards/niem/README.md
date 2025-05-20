@@ -1,3 +1,19 @@
 # NIEM Standard
 
-This folder is intended to hold the [NIEM-Releases](https://github.com/NIEM/NIEM-Releases) repository as a Git submodule pinned to tag `6.0`. Due to the sandbox environment, the submodule could not be initialized. Clone the repository and check out tag `6.0` into `openpermit/standards/niem/NIEM-Releases` before running the schema build script.
+This folder should contain the [NIEM-Releases](https://github.com/NIEM/NIEM-Releases) repository pinned to tag `6.0`.
+
+Run the helper script below from the repository root to clone the submodule:
+
+```sh
+bash scripts/setup_niem_releases.sh
+```
+
+The script executes the equivalent of:
+
+```sh
+git submodule add https://github.com/NIEM/NIEM-Releases openpermit/standards/niem/NIEM-Releases
+cd openpermit/standards/niem/NIEM-Releases
+git checkout tags/6.0
+```
+
+Make sure the submodule exists before running the schema build script.
