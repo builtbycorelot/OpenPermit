@@ -17,6 +17,9 @@ Interoperable Data Layer.
 
 A high-level architecture diagram is available in
 [mermaid/architecture.mmd](mermaid/architecture.mmd).
+A summary of NIEM alignment and augmentation is available in
+[docs/niem-alignment-6.0.md](docs/niem-alignment-6.0.md).
+
 
 Maintain state-of-the-art - maximal reliability, maximal security, standards-based-interoperability.
 
