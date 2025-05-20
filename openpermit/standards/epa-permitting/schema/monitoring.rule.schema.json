@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "monitoring.rule",
+  "type": "object",
+  "properties": {
+    "siteDescription": {"type": "string"},
+    "frequency": {"type": "string"},
+    "method": {"type": "string"},
+    "epaTag": {"type": "string"}
+  },
+  "required": ["siteDescription"]
+}
