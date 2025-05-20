@@ -32,26 +32,41 @@ class OpenPermit {
     
     // Create worker
     this.worker = new Worker(this.options.workerPath);
-    
-    // Set up message handler
+
+    // Wait for the worker to signal it is ready
+    await new Promise((resolve, reject) => {
+      const handleReady = event => {
+        if (event.data && event.data.type === 'READY') {
+          clearTimeout(timeout);
+          this.worker.removeEventListener('message', handleReady);
+          resolve();
+        }
+      };
+
+      const timeout = setTimeout(() => {
+        this.worker.removeEventListener('message', handleReady);
+        reject(new Error('Worker initialization timed out'));
+      }, 5000);
+
+      this.worker.addEventListener('message', handleReady);
+    });
+
+    // Set up message handler for responses
     this.worker.addEventListener('message', event => {
       const { callbackId, ...data } = event.data;
-      
+
       if (callbackId && this.callbacks.has(callbackId)) {
         const { resolve, reject } = this.callbacks.get(callbackId);
-        
+
         if (data.success) {
           resolve(data);
         } else {
           reject(new Error(data.error || 'Unknown error'));
         }
-        
+
         this.callbacks.delete(callbackId);
       }
     });
-    
-    // Wait for worker to be ready
-    await new Promise(resolve => setTimeout(resolve, 100));
   }
   
   /**
