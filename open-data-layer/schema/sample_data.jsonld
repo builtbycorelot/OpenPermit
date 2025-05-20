@@ -1,1 +1,18 @@
-{}
+{
+  "@context": {
+    "name": "http://schema.org/name",
+    "issued": "http://schema.org/dateIssued",
+    "Applicant": "http://example.org/ontology#Applicant",
+    "Permit": "http://example.org/ontology#Permit",
+    "applicant": {"@id": "http://example.org/ontology#applicant", "@type": "@id"}
+  },
+  "@id": "http://example.org/permit/1234",
+  "@type": "Permit",
+  "name": "Example Building Permit",
+  "issued": "2024-05-01",
+  "applicant": {
+    "@id": "http://example.org/applicant/A1",
+    "@type": "Applicant",
+    "name": "Jane Doe"
+  }
+}

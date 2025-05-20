@@ -1,4 +1,32 @@
-"""Placeholder script for ontology generation."""
+"""Generate a minimal OWL ontology used by the sample data."""
+
+import os
+
+ONTOLOGY = """<?xml version=\"1.0\"?>
+<rdf:RDF xmlns=\"http://example.org/ontology#\"
+     xml:base=\"http://example.org/ontology\"
+     xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"
+     xmlns:owl=\"http://www.w3.org/2002/07/owl#\"
+     xmlns:rdfs=\"http://www.w3.org/2000/01/rdf-schema#\"
+     xmlns:xsd=\"http://www.w3.org/2001/XMLSchema#\">
+    <owl:Ontology rdf:about=\"http://example.org/ontology\"/>
+
+    <owl:Class rdf:about=\"#Permit\"/>
+    <owl:Class rdf:about=\"#Applicant\"/>
+
+    <owl:ObjectProperty rdf:about=\"#applicant\">
+        <rdfs:domain rdf:resource=\"#Permit\"/>
+        <rdfs:range rdf:resource=\"#Applicant\"/>
+    </owl:ObjectProperty>
+</rdf:RDF>
+"""
+
+def main():
+    output_path = os.path.join(os.path.dirname(__file__), "open_data_ontology.owl")
+    with open(output_path, "w") as f:
+        f.write(ONTOLOGY)
+    print(f"Ontology written to {output_path}")
+
 
 if __name__ == "__main__":
-    print("Generate ontology here")
+    main()
