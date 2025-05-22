@@ -30,8 +30,6 @@ coverage xml
 
 CI workflows can upload the results to a service like Codecov or Coveralls, which then provides a dynamic badge URL. Until such a service is configured, we use a static placeholder badge:
 
-```markdown
-[![Coverage](https://img.shields.io/badge/coverage-unknown-lightgrey.svg)](./badges.md#coverage)
-```
+[![Coverage](https://img.shields.io/badge/coverage-unknown-lightgrey.svg)](docs/badges.md#coverage)
 
 Update the badge link once automated coverage reporting is enabled.
