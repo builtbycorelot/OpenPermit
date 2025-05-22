@@ -13,9 +13,39 @@ We use GitHub to host code, to track issues and feature requests, as well as acc
 
 ## Setting up for Testing
 
-Run `npm install` before executing `npm test` or opening the browser test page. This installs all required dependencies.
 
+Install development dependencies for both Node and Python tooling:
 
+```bash
+npm install                 # install Node packages
+pip install -r requirements-dev.txt  # Python test utilities
+```
+
+### Running the Node tests
+
+Execute the bundled unit tests with:
+
+```bash
+npm test
+```
+
+### Running Playwright
+
+Browser checks use [Playwright](https://playwright.dev). Install its runtime and run the tests:
+
+```bash
+npx playwright install
+npx playwright test
+```
+
+### Python schema validation
+
+The `open-data-layer` folder includes a validator script. Run it or the `pytest` suite to confirm schema compliance:
+
+```bash
+pytest                     # run all Python unit tests
+python open-data-layer/schema/validate_schema.py
+```
 ## Pull Request Process
 1. Fork the repo and create your branch from `main`
 2. If you've added code that should be tested, add tests

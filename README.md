@@ -38,9 +38,14 @@ OpenPermit is an **open-source data layer and toolkit** that modernises construc
 git clone https://github.com/builtbycorelot/OpenPermit.git
 cd OpenPermit
 pip install -r requirements-dev.txt
+npm install
 pytest                                 # run unit tests
+npm test                               # run Node tests
+npx playwright install                 # set up browsers
+npx playwright test
 python scripts/niem6_build_schemas.py  # generate NIEM-6.0 JSON Schemas
 python workflow/validate_workflow.py   # sample workflow validation
+python open-data-layer/schema/validate_schema.py  # schema sanity check
 ```
 
 ---
