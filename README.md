@@ -3,6 +3,9 @@
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![CI](https://github.com/builtbycorelot/OpenPermit/actions/workflows/ci.yml/badge.svg)](./.github/workflows/ci.yml)
+[![Security Policy](https://img.shields.io/badge/security-policy-blue.svg)](SECURITY.md)
+[![Docs](https://img.shields.io/badge/docs-online-blue.svg)](docs/)
+[![Coverage](https://img.shields.io/badge/coverage-unknown-lightgrey.svg)](docs/badges.md#coverage)
 
 **Public demo →** <https://builtbycorelot.github.io/OpenPermit>
 
@@ -107,9 +110,10 @@ PRs welcome!
 ---
 
 ## Links & References
-* Docs portal – [`docs/`](docs/)  
-* Full reference list – [`docs/references.md`](docs/references.md)  
-* Public site – <https://builtbycorelot.github.io/OpenPermit>  
+* Docs portal – [`docs/`](docs/)
+* Full reference list – [`docs/references.md`](docs/references.md)
+* Badge maintenance – [`docs/badges.md`](docs/badges.md)
+* Public site – <https://builtbycorelot.github.io/OpenPermit>
 
 ---
 
