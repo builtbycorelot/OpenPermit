@@ -15,8 +15,11 @@ const server = http.createServer((req, res) => {
   }
   fs.readFile(filePath, (err, data) => {
     if (err) {
+      console.error(`Error serving ${filePath}:`, err.code);
       res.writeHead(404);
-      res.end('Not found');
+      res.end(err.code === 'ENOENT'
+        ? 'File not found'
+        : 'Error processing request');
       return;
     }
     const ext = path.extname(filePath).slice(1);
@@ -24,9 +27,15 @@ const server = http.createServer((req, res) => {
       html: 'text/html',
       js: 'text/javascript',
       css: 'text/css',
-      json: 'application/json'
+      json: 'application/json',
+      svg: 'image/svg+xml',
+      png: 'image/png',
+      jpg: 'image/jpeg',
+      jpeg: 'image/jpeg',
+      gif: 'image/gif'
     };
-    res.writeHead(200, { 'Content-Type': types[ext] || 'text/plain' });
+    const contentType = types[ext] || 'text/plain';
+    res.writeHead(200, { 'Content-Type': contentType });
     res.end(data);
   });
 });
