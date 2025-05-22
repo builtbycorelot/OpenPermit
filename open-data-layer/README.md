@@ -39,8 +39,8 @@ pip install -r ../../requirements.txt
 
 ### Testing
 
-Run the Python unit tests with [pytest](https://pytest.org/):
+Run the JavaScript unit tests with `npm`:
 
 ```bash
-pytest
+npm test
 ```
