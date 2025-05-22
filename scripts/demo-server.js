@@ -7,7 +7,9 @@ const base = path.resolve(__dirname, '..');
 
 const server = http.createServer((req, res) => {
   const requestPath = req.url.split('?')[0];
-  let filePath = path.join(base, requestPath);
+  // Normalize the path and ensure it doesn’t escape the base directory
+  const normalizedPath = path.normalize(requestPath).replace(/^(\.\.[\/\\])+/, '');
+  let filePath = path.join(base, normalizedPath);
   if (requestPath === '/' || requestPath === '') {
     filePath = path.join(base, 'example', 'index.html');
   }
