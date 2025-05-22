@@ -2,7 +2,7 @@
 > *Permitting distilled for **simplicity, speed & interoperability***
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![CI](https://github.com/builtbycorelot/OpenPermit/actions/workflows/ci.yml/badge.svg)](./.github/workflows/ci.yml)
+[![Build Status](https://github.com/builtbycorelot/OpenPermit/actions/workflows/ci.yml/badge.svg)](https://github.com/builtbycorelot/OpenPermit/actions/workflows/ci.yml)
 
 **Public demo →** <https://builtbycorelot.github.io/OpenPermit>
 
