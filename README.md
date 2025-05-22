@@ -42,18 +42,21 @@ OpenPermit is an **open-source data layer and toolkit** that modernises construc
 git clone https://github.com/builtbycorelot/OpenPermit.git
 cd OpenPermit
 npm install                             # install JS dependencies
+npm run build
 npm test                                # run unit tests
-=======
+npm run lint
+npm run serve
+
+
 pip install -r requirements.txt
 pytest                                 # run unit tests
 python scripts/niem6_build_schemas.py  # generate NIEM-6.0 JSON Schemas
 python workflow/validate_workflow.py   # sample workflow validation
-# JavaScript tooling
-npm install
-npm run build
-npm test
-npm run lint
-npm run serve
+npx playwright install                # install browsers for E2E tests
+npx playwright test                   # run E2E suite
+
+
+
 ```
 
 The helper scripts rely on Python packages listed in
