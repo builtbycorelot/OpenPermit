@@ -48,6 +48,12 @@ pip install -r requirements.txt
 pytest                                 # run unit tests
 python scripts/niem6_build_schemas.py  # generate NIEM-6.0 JSON Schemas
 python workflow/validate_workflow.py   # sample workflow validation
+# JavaScript tooling
+npm install
+npm run build
+npm test
+npm run lint
+npm run serve
 ```
 
 The helper scripts rely on Python packages listed in
