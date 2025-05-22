@@ -41,6 +41,8 @@ pip install -r requirements-dev.txt
 pytest                                 # run unit tests
 python scripts/niem6_build_schemas.py  # generate NIEM-6.0 JSON Schemas
 python workflow/validate_workflow.py   # sample workflow validation
+npx playwright install                # install browsers for E2E tests
+npx playwright test                   # run E2E suite
 ```
 
 ---
