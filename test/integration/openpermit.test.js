@@ -1,3 +1,5 @@
+const { describe, test, beforeEach, afterEach } = require('node:test');
+const assert = require('node:assert/strict');
 const path = require('path');
 const { OpenPermit } = require('../../src/api/index.js');
 const CompatWorker = require('../../helpers/compat-worker');
@@ -8,7 +10,9 @@ describe('OpenPermit with worker', () => {
   let client;
 
   beforeEach(() => {
-    client = new OpenPermit({ workerPath: path.join(__dirname, '../../helpers/worker.js') });
+    client = new OpenPermit({
+      workerPath: path.join(__dirname, '../../helpers/worker.js')
+    });
   });
 
   afterEach(async () => {
@@ -18,11 +22,15 @@ describe('OpenPermit with worker', () => {
   });
 
   test('create and validate node', async () => {
-    const node = await client.createNode({ id: 'n1', type: 'RequirementNode', attributes: { foo: 'bar' } });
-    expect(node['@id']).toBe('n1');
-    expect(node.attributes.foo).toBe('bar');
+    const node = await client.createNode({
+      id: 'n1',
+      type: 'RequirementNode',
+      attributes: { foo: 'bar' }
+    });
+    assert.strictEqual(node['@id'], 'n1');
+    assert.strictEqual(node.attributes.foo, 'bar');
 
     const results = await client.validateNode(node);
-    expect(results.valid).toBe(true);
+    assert.strictEqual(results.valid, true);
   });
 });
