@@ -48,7 +48,7 @@ npm run serve
 
 
 pip install -r requirements.txt
-pytest                                 # run unit tests
+pytest                                 # run unit tests (Python)
 python scripts/niem6_build_schemas.py  # generate NIEM-6.0 JSON Schemas
 python workflow/validate_workflow.py   # sample workflow validation
 npx playwright install                # install browsers for E2E tests
@@ -57,6 +57,9 @@ npx playwright test                   # run E2E suite
 
 
 ```
+
+Pytest uses the configuration in `pytest.ini` to discover files ending with
+`.test.py` in addition to the standard `test_*.py` pattern.
 
 The helper scripts rely on Python packages listed in
 [`requirements.txt`](requirements.txt). Install them with the `pip` command
