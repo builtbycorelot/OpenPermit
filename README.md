@@ -121,7 +121,6 @@ See [`SECURITY.md`](SECURITY.md) for threat model, disclosure policy & NIST cont
 PRs welcome!  
 1. Follow the guidelines in [`CONTRIBUTING.md`](CONTRIBUTING.md)  
 2. Open an issue or discussion for larger features  
-3. Run `pre-commit install` to auto-format code & docs
 
 ---
 
