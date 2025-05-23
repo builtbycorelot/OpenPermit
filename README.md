@@ -5,7 +5,6 @@
 [![CI](https://github.com/builtbycorelot/OpenPermit/actions/workflows/ci.yml/badge.svg)](./.github/workflows/ci.yml)
 [![Coverage](https://codecov.io/gh/builtbycorelot/OpenPermit/branch/main/graph/badge.svg)](https://codecov.io/gh/builtbycorelot/OpenPermit)
 [![Docs](https://img.shields.io/badge/docs-website-blue.svg)](https://builtbycorelot.github.io/OpenPermit)
-=======
 [![Build Status](https://github.com/builtbycorelot/OpenPermit/actions/workflows/ci.yml/badge.svg)](https://github.com/builtbycorelot/OpenPermit/actions/workflows/ci.yml)
 
 **Public demo →** <https://builtbycorelot.github.io/OpenPermit>

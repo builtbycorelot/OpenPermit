@@ -33,7 +33,6 @@ jobs:
         with:
           files: coverage.xml
 
-=======
   lint:
     runs-on: ubuntu-latest
     steps:
