@@ -1,5 +1,3 @@
-const { test } = require('node:test');
-
 const { test, expect } = require('@playwright/test');
 
 // Simple placeholder test to ensure Playwright can run in CI
