@@ -13,18 +13,17 @@ contains placeholder content that can be replaced with real implementations.
 │   ├── sample_data.jsonld
 │   ├── validation.shacl
 │   └── validate_schema.py
-├── ontology/
-│   ├── open_data_ontology.owl
-│   ├── queries.sparql
-│   └── generate_ontology.py
 ├── docs/
 │   ├── README.md
 │   ├── standards.md
 │   └── odata_edm.xml
 ├── .gitignore
 ├── LICENSE
-└── README.md
 ```
+```
+
+Ontology files are located at the repository root in `ontology/`.
+
 
 ### Schema Validation
 
