@@ -3,12 +3,14 @@
 This directory contains reference materials and sample files for the OpenPermit data layer.
 It mirrors the structure described in the project documentation.  Each subfolder
 contains placeholder content that can be replaced with real implementations.
+The sample `.jsonld` files include a top-level `@context` referencing common
+vocabularies.
 
 ```
 ├── schema/
-│   ├── blds.json
-│   ├── ifc.json
-│   ├── iso20022.json
+│   ├── blds.jsonld
+│   ├── ifc.jsonld
+│   ├── iso20022.jsonld
 │   ├── geojson.json
 │   ├── validation.shacl
 │   └── validate_schema.py
