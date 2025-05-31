@@ -50,16 +50,20 @@ npm run serve
 pip install -r requirements.txt
 pytest                                 # run unit tests (Python)
 python scripts/niem6_build_schemas.py  # generate NIEM-6.0 JSON Schemas
-python workflow/validate_workflow.py   # sample workflow validation
-npx playwright install                # install browsers for E2E tests
+python workflow/validate_workflow.py   # validate workflow JSON-LD
+npx playwright install --with-deps    # install browsers & dependencies for E2E tests
 npx playwright test                   # run E2E suite
 
 
 
 ```
 
+
 Pytest uses the configuration in `pytest.ini` to discover files ending with
 `.test.py` in addition to the standard `test_*.py` pattern.
+When running in CI, be sure to execute `npx playwright install --with-deps` so that
+all system dependencies for the browsers are installed.
+
 
 The helper scripts rely on Python packages listed in
 [`requirements.txt`](requirements.txt). Install them with the `pip` command
@@ -124,7 +128,6 @@ See [`SECURITY.md`](SECURITY.md) for threat model, disclosure policy & NIST cont
 PRs welcome!  
 1. Follow the guidelines in [`CONTRIBUTING.md`](CONTRIBUTING.md)  
 2. Open an issue or discussion for larger features  
-3. Run `pre-commit install` to auto-format code & docs
 
 ---
 
@@ -134,5 +137,3 @@ PRs welcome!
 * Public site – <https://builtbycorelot.github.io/OpenPermit>  
 
 ---
-
-*Permitting should be as easy as publishing open data—let’s build the rails together.*
