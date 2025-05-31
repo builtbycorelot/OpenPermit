@@ -10,7 +10,6 @@ contains placeholder content that can be replaced with real implementations.
 │   ├── ifc.json
 │   ├── iso20022.json
 │   ├── geojson.json
-│   ├── sample_data.jsonld
 │   ├── validation.shacl
 │   └── validate_schema.py
 ├── ontology/
