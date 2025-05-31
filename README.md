@@ -51,12 +51,15 @@ pip install -r requirements.txt
 pytest                                 # run unit tests
 python scripts/niem6_build_schemas.py  # generate NIEM-6.0 JSON Schemas
 python workflow/validate_workflow.py   # sample workflow validation
-npx playwright install                # install browsers for E2E tests
+npx playwright install --with-deps    # install browsers & dependencies for E2E tests
 npx playwright test                   # run E2E suite
 
 
 
 ```
+
+When running in CI, be sure to execute `npx playwright install --with-deps` so that
+all system dependencies for the browsers are installed.
 
 The helper scripts rely on Python packages listed in
 [`requirements.txt`](requirements.txt). Install them with the `pip` command
