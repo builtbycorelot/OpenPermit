@@ -2,7 +2,7 @@
 
 import argparse
 import json
-from urllib import request
+from urllib import request, error
 
 
 def push_dataset(ckan_url: str, api_key: str, package: dict) -> dict:
