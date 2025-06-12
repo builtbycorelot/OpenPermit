@@ -7,3 +7,4 @@ This directory contains supplementary documents for OpenPermit. Use the links be
 - [NIEM ↔ NFL Alignment (6.0)](niem-alignment-6.0.md) — Overview of schema alignment with NIEM 6.0.
 - [User Roles and Primary Actions](ui_roles.md) — Key user types and their primary actions in the system.
 - [References](references.md) — Policy and standards references that inform this project.
+- [Project Roadmap](roadmap.md) — Upcoming milestones including the API façade and CKAN integration.
