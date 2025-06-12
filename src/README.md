@@ -37,8 +37,8 @@ The framework includes an AI validation interface for:
 
 ```bash
 # Clone the repository
-git clone https://github.com/sheetpros/openpermit.git
-cd openpermit
+git clone https://github.com/builtbycorelot/OpenPermit.git
+cd OpenPermit
 
 # Install dependencies
 npm install

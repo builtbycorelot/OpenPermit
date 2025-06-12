@@ -2,6 +2,8 @@
 > *Permitting distilled for **simplicity, speed & interoperability***
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![CI](https://github.com/builtbycorelot/OpenPermit/actions/workflows/ci.yml/badge.svg)](https://github.com/builtbycorelot/OpenPermit/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/builtbycorelot/OpenPermit/branch/main/graph/badge.svg)](https://codecov.io/gh/builtbycorelot/OpenPermit)
 
 **Public demo →** <https://builtbycorelot.github.io/OpenPermit>
 
@@ -128,8 +130,9 @@ PRs welcome!
 ---
 
 ## Links & References
-* Docs portal – [`docs/`](docs/)  
-* Full reference list – [`docs/references.md`](docs/references.md)  
-* Public site – <https://builtbycorelot.github.io/OpenPermit>  
+* Docs portal – [`docs/`](docs/)
+* Full reference list – [`docs/references.md`](docs/references.md)
+* Project roadmap – [`docs/roadmap.md`](docs/roadmap.md)
+* Public site – <https://builtbycorelot.github.io/OpenPermit>
 
 ---
