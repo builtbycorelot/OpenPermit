@@ -6,7 +6,8 @@
     "build": "mkdir -p dist && cp -r src/* dist/",
     "test": "node --test",
     "lint": "eslint src test",
-    "serve": "http-server example"
+    "serve": "http-server example",
+    "e2e": "node scripts/run-playwright.js"
   },
   "devDependencies": {
     "eslint": "^8.52.0",

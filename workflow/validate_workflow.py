@@ -4,6 +4,10 @@ import json
 import os
 import sys
 
+ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
+if ROOT_DIR not in sys.path:
+    sys.path.insert(0, ROOT_DIR)
+
 import audit
 
 WORKFLOW_FILE = os.path.join(os.path.dirname(__file__), "workflow.jsonld")
