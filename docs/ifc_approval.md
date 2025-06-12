@@ -25,6 +25,12 @@ This document outlines how Industry Foundation Classes (IFC) files should be val
 1. **Submission pipeline**
    - When an applicant uploads an IFC file, trigger automated validation steps before the file is accepted into the permit review queue.
    - Validation scripts can be run in a continuous integration (CI) environment or as server-side hooks.
+   - The helper script [`scripts/ifc_validate.py`](../scripts/ifc_validate.py) wraps common IfcOpenShell checks and can be executed manually:
+
+     ```bash
+     $ python scripts/ifc_validate.py example.ifc
+     IFC validation passed
+     ```
 
 2. **Feedback and reporting**
    - Collect validation results (errors, warnings, and rule violations) and store them alongside the permit record.
