@@ -130,8 +130,9 @@ PRs welcome!
 ---
 
 ## Links & References
-* Docs portal – [`docs/`](docs/)  
-* Full reference list – [`docs/references.md`](docs/references.md)  
-* Public site – <https://builtbycorelot.github.io/OpenPermit>  
+* Docs portal – [`docs/`](docs/)
+* Full reference list – [`docs/references.md`](docs/references.md)
+* Project roadmap – [`docs/roadmap.md`](docs/roadmap.md)
+* Public site – <https://builtbycorelot.github.io/OpenPermit>
 
 ---

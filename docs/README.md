@@ -8,3 +8,4 @@ This directory contains supplementary documents for OpenPermit. Use the links be
 - [User Roles and Primary Actions](ui_roles.md) — Key user types and their primary actions in the system.
 - [Remote Inspection API](remote_inspections.md) — Upload geo‑tagged photos for remote site checks.
 - [References](references.md) — Policy and standards references that inform this project.
+- [Project Roadmap](roadmap.md) — Upcoming milestones including the API façade and CKAN integration.
