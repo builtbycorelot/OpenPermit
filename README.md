@@ -11,11 +11,12 @@
 1. [Why OpenPermit?](#why-openpermit)
 2. [Quick-start](#quick-start)
 3. [Architecture](#architecture)
-4. [Standards Alignment](#standards-alignment)
-5. [Stakeholders & How to Engage](#stakeholders--how-to-engage)
-6. [Security](#security)
-7. [Contributing](#contributing)
-8. [Links & References](#links--references)
+4. [CKAN bridge](#ckan-bridge)
+5. [Standards Alignment](#standards-alignment)
+6. [Stakeholders & How to Engage](#stakeholders--how-to-engage)
+7. [Security](#security)
+8. [Contributing](#contributing)
+9. [Links & References](#links--references)
 
 ---
 
@@ -88,6 +89,14 @@ flowchart LR
 ```
 
 *The **CKAN API bridge** can push any validated permit dataset straight into a CKAN portal (e.g., `data.gov`-style), preserving metadata and access controls.*
+
+## CKAN bridge
+The helper script in `integrations/ckan/` publishes a JSON‑LD file directly to a CKAN portal.
+
+```bash
+python integrations/ckan/push_dataset.py https://demo.ckan.org YOUR_API_KEY dataset.jsonld \
+    --name my-dataset --title "My Dataset"
+```
 
 ---
 
