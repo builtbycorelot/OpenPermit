@@ -8,7 +8,7 @@ OpenPermit 2.0 is built from the ground up with:
 - **Modern Standards**: JSON-LD schema compliance and API-first architecture
 - **Real-time Integration**: Live municipal system connections
 - **Developer-First**: CLI tools, templates, and comprehensive APIs
-- **Proven Results**: Currently piloting with 3 municipalities
+
 
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
