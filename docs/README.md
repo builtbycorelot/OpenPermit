@@ -5,6 +5,7 @@ This directory contains supplementary documents for OpenPermit. Use the links be
 - [IFC File Validation Workflow](ifc_approval.md) — How to check IFC models before submission.
 - [Mapping Building Code Requirements to IFC Elements](legal_standards_mapping.md) — Crosswalking regulations to BIM elements and automated checks.
 - [NIEM ↔ NFL Alignment (6.0)](niem-alignment-6.0.md) — Overview of schema alignment with NIEM 6.0.
+- [Node Form Language – Standards Grounding Plan](nfl-standards-plan.md) — How NFL ties into ISO 27001, NIEM and related standards.
 - [User Roles and Primary Actions](ui_roles.md) — Key user types and their primary actions in the system.
 - [Remote Inspection API](remote_inspections.md) — Upload geo‑tagged photos for remote site checks.
 - [References](references.md) — Policy and standards references that inform this project.

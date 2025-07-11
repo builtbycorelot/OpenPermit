@@ -5,7 +5,9 @@ import os
 import sys
 from pathlib import Path
 
+
 sys.path.append(str(Path(__file__).resolve().parents[1]))
+
 import audit
 
 WORKFLOW_FILE = str(Path(__file__).resolve().with_name("workflow.jsonld"))
