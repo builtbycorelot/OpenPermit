@@ -3,14 +3,14 @@
 import json
 import os
 import sys
+from pathlib import Path
 
-ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
-if ROOT_DIR not in sys.path:
-    sys.path.insert(0, ROOT_DIR)
+
+sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 import audit
 
-WORKFLOW_FILE = os.path.join(os.path.dirname(__file__), "workflow.jsonld")
+WORKFLOW_FILE = str(Path(__file__).resolve().with_name("workflow.jsonld"))
 
 
 def main() -> int:
@@ -38,7 +38,7 @@ def main() -> int:
     print("workflow.jsonld VALID: contains @id and schema:itemListElement list")
     user = os.environ.get("AUDIT_USER")
     if user:
-        trail = audit.AuditTrail(os.path.join(os.path.dirname(__file__), "workflow_audit.log"))
+        trail = audit.AuditTrail(Path(__file__).resolve().with_name("workflow_audit.log"))
         trail.record(WORKFLOW_FILE, user, "validate")
     return 0
 
