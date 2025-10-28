@@ -1,55 +1,57 @@
 # OpenPermit Documentation Hub
 
-Welcome to the public documentation index for the OpenPermit project. Use this page as a launchpad to product overviews, technical references, community programs, and contributor resources across the repository.
+OpenPermit is an open-source initiative that makes building and energy infrastructure permits faster, clearer, and more predictable. By combining plain-language guidance with standards-based technology, we help communities accelerate affordable housing, modernize energy upgrades, and give every applicant a transparent path to approval.
 
-## Quick Starts & Interactive Demos
-- [Quick Start Guide](QUICK_START.md) — Install the CLI, configure a municipality, and launch the local demo in minutes.
-- [Node Framework Demo](../example/index.html) — Explore the in-browser demo that generates nodes, validates submissions, and builds crosswalks.
-- [Spotsylvania Innovation Sandbox Call to Action](../example/spotsylvania-innovation-sandbox.html) — Sample outreach page used in statewide pilots.
+## Start Here: For Everyone
+- **Mission in Plain Language.** OpenPermit streamlines permitting so residents and small businesses spend less time on paperwork and more time building. We partner with municipalities, industry experts, and volunteers to modernize reviews without leaving anyone behind.
+- **How we do it.** Our approach is built on five pillars:
+  1. [Standardized Vocabulary](standardized_vocabulary.md) — A shared form that works on paper or as JSON, grounded in BLDS, NIEM, and legacy OpenPermit standards.
+  2. [Programmatic Interface](programmatic_interface.md) — APIs that let trusted partners submit, track, and integrate permits securely.
+  3. [Prescriptive Project Verification](prescriptive_verification.md) — "E-check" style automation that validates compliant projects in minutes.
+  4. [Hosted Model Reviews](hosted_model_reviews.md) — Collaborative 3D/2D workspaces for real-time conversations between submitters and reviewers.
+  5. [Code Validity Testing](code_validity_testing.md) — Tools that ensure new policy language is both human- and machine-readable.
+- **Open invitation.** Whether you are a homeowner, contractor, energy specialist, policy maker, or developer, you are welcome to participate, contribute, and share feedback.
 
-## Mission, Story & Engagement
-- [OpenPermit White Paper](white_paper.md) — Mission, vision, and high-level objectives.
-- [Simple Outline (Infographic)](outline_infographic.html) — Visual summary of the OpenPermit workflow.
-- [Public Engagement Program](public_engagement.md) — Community outreach and participation framework.
-- [Stakeholders & How to Engage](https://github.com/SheetPros/OpenPermit?tab=readme-ov-file#stakeholders--how-to-engage) — Audience-specific value propositions from the repository README.
-- [Project Discussion Board](https://github.com/SheetPros/OpenPermit/discussions) — Join conversations, propose ideas, or ask questions.
+## Explore by Audience
 
-## How It Works
-- [Technical Explanation](technical_explanation.md) — Architecture, data model, and systems integration overview.
-- [User Roles and Primary Actions](ui_roles.md) — Who does what within the permitting workflow.
-- [Remote Inspection API](remote_inspections.md) — Submit geo-tagged inspections with device attestation.
-- [Documentation Roadmap](roadmap.md) — Upcoming milestones including API façades and integrations.
+### General Public & Community Advocates
+- [Simple Outline (Infographic)](outline_infographic.html) — Visual overview of the permitting journey.
+- [Public Engagement Program](public_engagement.md) — How communities can shape local permitting reforms.
+- [OpenPermit White Paper](white_paper.md) — The story, mission, and long-term vision.
+- [Stakeholders & How to Engage](https://github.com/SheetPros/OpenPermit?tab=readme-ov-file#stakeholders--how-to-engage) — Real-world roles and benefits.
 
-## Data & Standards Alignment
-- [IFC File Validation Workflow](ifc_approval.md) — Checklist for model validation before submission.
-- [Mapping Building Code Requirements to IFC Elements](legal_standards_mapping.md) — Crosswalking regulations to BIM elements and automated checks.
-- [NIEM ↔ NFL Alignment (6.0)](niem-alignment-6.0.md) — Schema alignment notes for NIEM 6.0 interoperability.
-- [Relevant ISO Standards](iso_standard.md) — International standards referenced throughout OpenPermit.
-- [References](references.md) — Policy and standards bibliography.
-- [Data Relationships Diagram](data_relationships.html) — Visualizing linked datasets, APIs, and validation layers.
-- [Open Data Layer Schema Validation](../open-data-layer/schema/validation.shacl) — SHACL shapes for structured data governance.
-- [Schema Validation Script](../open-data-layer/schema/validate_schema.py) — Python helper for executing SHACL checks.
+### Builders, Designers & Inspectors
+- [Quick Start Guide](QUICK_START.md) — Spin up the toolkit and explore the demo workflow.
+- [User Roles and Primary Actions](ui_roles.md) — Understand who does what within OpenPermit-powered reviews.
+- [Remote Inspection API](remote_inspections.md) — Capture geo-verified inspections with attested devices.
+- [IFC File Validation Workflow](ifc_approval.md) — Prepare models for automated checks.
+- [Data Relationships Diagram](data_relationships.html) — See how submissions, reviews, and inspections connect.
 
-## Programs, Pilots & Policy
-- [Municipal Pilot Program Overview](../PILOT_PROGRAM.md) — Strategy for launching prescriptive reviews.
-- [Virginia Playbook](../Virginia/README.md) — Regional implementation example with coalition partners.
-- [Remote Inspection Playbook](remote_inspections.md) — Guidance for virtual site checks and compliance evidence.
-- [Public Policy Alignment](nfl-standards-plan.md) — Standards roadmap covering ISO 27001, NIEM, and related frameworks.
-- [Legal Standards Mapping](legal_standards_mapping.md) — Aligning building code requirements with digital representations.
+### Policy Makers & Municipal Leaders
+- [Municipal Pilot Program Overview](../PILOT_PROGRAM.md) — Launch playbook for prescriptive housing initiatives.
+- [Virginia Playbook](../Virginia/README.md) — Example coalition for regional adoption.
+- [Public Policy Alignment](nfl-standards-plan.md) — Roadmap for ISO 27001, NIEM, and related frameworks.
+- [Legal Standards Mapping](legal_standards_mapping.md) — Translate code requirements into structured data.
+- [Documentation Roadmap](roadmap.md) — Upcoming milestones, including outreach and governance assets.
 
-## Repository, Governance & Contribution
-- [Repository Overview](../README.md) — Mission statement, quick links, and project scope.
-- [Standards & Processes](../standards.md) — Coding conventions and decision records.
-- [Security Policy](../SECURITY.md) — Vulnerability disclosure process and security expectations.
-- [Certification Program](../CERTIFICATION.md) — Pathways for training and certification.
-- [Contributing Guide](https://github.com/SheetPros/OpenPermit/blob/main/CONTRIBUTING.md) — How to open issues, submit PRs, and join development.
-- [Issue Labels & Support](https://github.com/SheetPros/OpenPermit/issues) — Browse open tasks and feature requests.
-
-## Additional Resources
-- [CLI Documentation](../cli/README.md) — Command-line tooling usage and configuration.
-- [API Source](../src/api/index.js) — Entry point to the API surface (JavaScript).
+### Technologists, Researchers & System Architects
+- [Technical Explanation](technical_explanation.md) — Architecture overview and integration patterns.
+- [Programmatic Interface & API Access](programmatic_interface.md) — Deep dive on endpoints and capabilities.
+- [Open Data Layer Schema](../open-data-layer/schema/validation.shacl) — SHACL shapes governing data quality.
+- [Schema Validation Script](../open-data-layer/schema/validate_schema.py) — Run automated checks against payloads.
 - [Core Engine Worker](../src/core/worker.js) — Background processing logic for node operations.
-- [Scripts & Automation](../scripts) — Utilities including NIEM 6 schema builders and data loaders.
-- [Example Payloads](../example) — HTML demos and sample permit data packages.
+- [ISO Standards Reference](iso_standard.md) — International standards underpinning the platform.
 
-If you discover a missing resource, please [open an issue](https://github.com/SheetPros/OpenPermit/issues/new) or start a [discussion](https://github.com/SheetPros/OpenPermit/discussions/new) so we can keep this index current.
+## Deep Dive Library
+- **Community & Engagement.** [Public Engagement Program](public_engagement.md) · [Project Discussion Board](https://github.com/SheetPros/OpenPermit/discussions)
+- **Programs & Pilots.** [Remote Inspection Playbook](remote_inspections.md) · [Spotsylvania Innovation Sandbox](../example/spotsylvania-innovation-sandbox.html)
+- **Learning Resources.** [Example Payloads](../example) · [CLI Documentation](../cli/README.md) · [Node Framework Demo](../example/index.html)
+- **Research & References.** [References](references.md) · [NIEM ↔ NFL Alignment (6.0)](niem-alignment-6.0.md) · [ISO Standards](iso_standard.md)
+
+## Get Involved
+1. Read the [Repository Overview](../README.md) and [Standards & Processes](../standards.md).
+2. Join conversations in the [Project Discussion Board](https://github.com/SheetPros/OpenPermit/discussions) or open an [issue](https://github.com/SheetPros/OpenPermit/issues/new).
+3. Contribute code, policy research, or field feedback through pull requests. Be sure to review the [Contributing Guide](https://github.com/SheetPros/OpenPermit/blob/main/CONTRIBUTING.md) and [Security Policy](../SECURITY.md).
+4. Share success stories from affordable housing, energy retrofits, and infrastructure modernization projects so we can highlight them for others.
+
+Together we can deliver predictable, equitable permits that match the urgency of housing and energy transformation.
