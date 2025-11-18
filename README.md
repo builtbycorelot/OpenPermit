@@ -1,8 +1,19 @@
 # 🏛️ OpenPermit — Ultimately Efficient Permitting
+**Note**: This is OpenPermit 2.0, a next-generation permitting platform. Not affiliated with the legacy openpermit.org project (discontinued 2019).
+
 > *Permitting distilled for **simplicity, speed & interoperability***
+## What Makes This Different
+
+OpenPermit 2.0 is built from the ground up with:
+- **Modern Standards**: JSON-LD schema compliance and API-first architecture
+- **Real-time Integration**: Live municipal system connections
+- **Developer-First**: CLI tools, templates, and comprehensive APIs
+
+
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![CI](https://github.com/builtbycorelot/OpenPermit/actions/workflows/ci.yml/badge.svg)](./.github/workflows/ci.yml)
+[![CI](https://github.com/builtbycorelot/OpenPermit/actions/workflows/ci.yml/badge.svg)](https://github.com/builtbycorelot/OpenPermit/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/builtbycorelot/OpenPermit/branch/main/graph/badge.svg)](https://codecov.io/gh/builtbycorelot/OpenPermit)
 
 **Public demo →** <https://builtbycorelot.github.io/OpenPermit>
 
@@ -12,11 +23,12 @@
 1. [Why OpenPermit?](#why-openpermit)
 2. [Quick-start](#quick-start)
 3. [Architecture](#architecture)
-4. [Standards Alignment](#standards-alignment)
-5. [Stakeholders & How to Engage](#stakeholders--how-to-engage)
-6. [Security](#security)
-7. [Contributing](#contributing)
-8. [Links & References](#links--references)
+4. [CKAN bridge](#ckan-bridge)
+5. [Standards Alignment](#standards-alignment)
+6. [Stakeholders & How to Engage](#stakeholders--how-to-engage)
+7. [Security](#security)
+8. [Contributing](#contributing)
+9. [Links & References](#links--references)
 
 ---
 
@@ -37,11 +49,34 @@ OpenPermit is an **open-source data layer and toolkit** that modernises construc
 ```bash
 git clone https://github.com/builtbycorelot/OpenPermit.git
 cd OpenPermit
-pip install -r requirements-dev.txt
-pytest                                 # run unit tests
+npm install                             # install JS dependencies
+npm run build
+npm test                                # run unit tests
+npm run lint
+npm run serve
+
+
+pip install -r requirements.txt
+pytest                                 # run unit tests (Python)
 python scripts/niem6_build_schemas.py  # generate NIEM-6.0 JSON Schemas
-python workflow/validate_workflow.py   # sample workflow validation
+python workflow/validate_workflow.py   # validate workflow JSON-LD
+npx playwright install --with-deps    # install browsers & dependencies for E2E tests
+npx playwright test                   # run E2E suite
+
+
+
 ```
+
+
+Pytest uses the configuration in `pytest.ini` to discover files ending with
+`.test.py` in addition to the standard `test_*.py` pattern.
+When running in CI, be sure to execute `npx playwright install --with-deps` so that
+all system dependencies for the browsers are installed.
+
+
+The helper scripts rely on Python packages listed in
+[`requirements.txt`](requirements.txt). Install them with the `pip` command
+shown above before running the scripts.
 
 ---
 
@@ -66,6 +101,14 @@ flowchart LR
 ```
 
 *The **CKAN API bridge** can push any validated permit dataset straight into a CKAN portal (e.g., `data.gov`-style), preserving metadata and access controls.*
+
+## CKAN bridge
+The helper script in `integrations/ckan/` publishes a JSON‑LD file directly to a CKAN portal.
+
+```bash
+python integrations/ckan/push_dataset.py https://demo.ckan.org YOUR_API_KEY dataset.jsonld \
+    --name my-dataset --title "My Dataset"
+```
 
 ---
 
@@ -102,15 +145,13 @@ See [`SECURITY.md`](SECURITY.md) for threat model, disclosure policy & NIST cont
 PRs welcome!  
 1. Follow the guidelines in [`CONTRIBUTING.md`](CONTRIBUTING.md)  
 2. Open an issue or discussion for larger features  
-3. Run `pre-commit install` to auto-format code & docs
 
 ---
 
 ## Links & References
-* Docs portal – [`docs/`](docs/)  
-* Full reference list – [`docs/references.md`](docs/references.md)  
-* Public site – <https://builtbycorelot.github.io/OpenPermit>  
+* Docs portal – [`docs/`](docs/)
+* Full reference list – [`docs/references.md`](docs/references.md)
+* Project roadmap – [`docs/roadmap.md`](docs/roadmap.md)
+* Public site – <https://builtbycorelot.github.io/OpenPermit>
 
 ---
-
-*Permitting should be as easy as publishing open data—let’s build the rails together.*

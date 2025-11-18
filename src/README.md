@@ -37,8 +37,8 @@ The framework includes an AI validation interface for:
 
 ```bash
 # Clone the repository
-git clone https://github.com/sheetpros/openpermit.git
-cd openpermit
+git clone https://github.com/builtbycorelot/OpenPermit.git
+cd OpenPermit
 
 # Install dependencies
 npm install
@@ -103,6 +103,16 @@ Execute the JavaScript unit tests with:
 
 ```bash
 npm test
+```
+
+### Development Scripts
+
+Common helper commands are defined in `package.json`:
+
+```bash
+npm run build   # build the library
+npm run lint    # lint source code
+npm run serve   # start the demo server
 ```
 
 ## Contributing

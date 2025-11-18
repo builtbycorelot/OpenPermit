@@ -43,18 +43,101 @@
   </style>
 </head>
 <body>
-  <h1>OpenPermit Node Framework Demo</h1>
-  
-  <div>
-    <button id="createNodeBtn">Create Node</button>
-    <button id="validateNodeBtn">Validate Node</button>
-    <button id="createCrosswalkBtn">Create Crosswalk</button>
-  </div>
-  
-  <div class="output">
-    <h3>Output:</h3>
-    <pre id="output"></pre>
-  </div>
+  <header>
+    <h1>OpenPermit Node Framework Demo</h1>
+    <p>
+      OpenPermit brings the natural, built, and digital environments together so communities can see
+      what exists today, plan for what is coming tomorrow, and coordinate rapid responses when
+      emergencies strike.
+    </p>
+  </header>
+
+  <main>
+    <section aria-labelledby="layman-overview">
+      <h2 id="layman-overview">How it helps everyday residents</h2>
+      <p>
+        Think of OpenPermit as a shared map and checklist. It pulls in maps and satellite data,
+        building models, and live sensor readings so that everyone—from residents to first
+        responders—can agree on what is happening in real time. That shared picture makes it easier to
+        get building permits approved faster and to understand how a neighborhood is affected when a
+        storm or other emergency occurs.
+      </p>
+    </section>
+
+    <section aria-labelledby="aec-overview">
+      <h2 id="aec-overview">For the Architecture, Engineering, and Construction (AEC) community</h2>
+      <p>
+        Designers and builders can submit BIM deliverables that align with openBIM (IFC) and CityJSON
+        standards while linking them directly to GIS parcels, utility models, and job-site IoT feeds.
+        The platform normalizes these assets with NIEM and BLDS permit data so multidisciplinary teams
+        can automate clash checks, compare existing versus emergency conditions, and keep digital twins
+        synchronized with field progress.
+      </p>
+    </section>
+
+    <section aria-labelledby="policy-overview">
+      <h2 id="policy-overview">For policy makers and permitting leaders</h2>
+      <p>
+        OpenPermit supplies a common data language rooted in NIEM, OGC, ISO 37120, and EPA standards so
+        agencies can share evidence, track equity outcomes, and publish transparent dashboards. By
+        forming a statewide consortium, jurisdictions can pilot standardized reviews, automate
+        cross-agency workflows, and meet statutory reporting or resilience targets without rebuilding
+        systems from scratch.
+      </p>
+    </section>
+
+    <section aria-labelledby="science-overview">
+      <h2 id="science-overview">For scientists and digital infrastructure teams</h2>
+      <p>
+        Researchers can stream environmental sensors, structural health monitors, and climate models
+        into a unified knowledge graph. API interfaces follow OData and NIEM exchange patterns so that
+        advanced analytics, ML pipelines, and emergency simulations can operate on authoritative data
+        with full provenance, supporting rapid situational awareness and after-action reviews.
+      </p>
+    </section>
+
+    <section aria-labelledby="consortium-call">
+      <h2 id="consortium-call">Join the statewide standardization consortium</h2>
+      <p>
+        We are assembling public agencies, utilities, and academic partners to pilot this integrated
+        data standard. Together we can modernize permitting, accelerate housing and infrastructure
+        delivery, and strengthen emergency response capabilities across Virginia.
+      </p>
+    </section>
+
+    <section aria-labelledby="demo-tools">
+      <h2 id="demo-tools">Try the data node demo</h2>
+      <p>
+        Use the buttons below to see how the framework creates requirements, validates submissions, and
+        generates crosswalks between standards.
+      </p>
+      <div>
+        <button id="createNodeBtn">Create Node</button>
+        <button id="validateNodeBtn">Validate Node</button>
+        <button id="createCrosswalkBtn">Create Crosswalk</button>
+      </div>
+
+      <div class="output">
+        <h3>Output:</h3>
+        <pre id="output"></pre>
+      </div>
+    </section>
+
+    <section aria-labelledby="learn-more">
+      <h2 id="learn-more">Learn more</h2>
+      <ul>
+        <li><a href="./spotsylvania-innovation-sandbox.html">Spotsylvania Innovation Sandbox Call to Action</a></li>
+        <li><a href="../docs/public_engagement.md">Public Engagement Program</a></li>
+        <li><a href="../docs/outline_infographic.html">Simple Outline (infographic)</a></li>
+        <li><a href="../docs/white_paper.md">White Paper</a></li>
+        <li><a href="../docs/iso_standard.md">ISO Standard</a></li>
+        <li><a href="../docs/technical_explanation.md">Technical Explanation</a></li>
+        <li><a href="https://github.com/builtbycorelot/OpenPermit/blob/main/CONTRIBUTING.md">How to contribute</a></li>
+        <li><a href="https://github.com/builtbycorelot/OpenPermit?tab=readme-ov-file#stakeholders--how-to-engage">Stakeholder engagement & clarifying details</a></li>
+        <li><a href="https://github.com/builtbycorelot/OpenPermit/discussions">Project discussion board</a></li>
+      </ul>
+    </section>
+  </main>
   
   <script src="../src/api/index.js"></script>
   <script>
