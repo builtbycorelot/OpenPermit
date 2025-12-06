@@ -7,10 +7,11 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "echo \"(add eslint if desired)\" && exit 0",
-    "test": "echo \"(add vitest if desired)\" && exit 0"
+    "lint": "eslint . --ext .js",
+    "test": "node --test"
   },
   "devDependencies": {
+    "eslint": "^9.9.1",
     "vite": "^5.4.0"
   }
 }
