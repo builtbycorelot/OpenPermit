@@ -20,5 +20,5 @@ jobs:
         run: make install
       - name: Lint & Test
         run: |
-          make lint || true
-          make test || true
+          make lint
+          make test
