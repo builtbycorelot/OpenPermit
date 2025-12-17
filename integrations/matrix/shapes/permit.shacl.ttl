@@ -1,0 +1,38 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <https://openpermit.io/ontology#> .
+@prefix schema: <https://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:PermitSubmissionShape a sh:NodeShape ;
+    sh:targetClass ex:PermitSubmission ;
+    sh:property [
+        sh:path ex:permitId ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+    ] .
+
+ex:PermitStatusShape a sh:NodeShape ;
+    sh:targetClass ex:PermitStatus ;
+    sh:property [
+        sh:path ex:status ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+    ] .
+
+ex:InspectionMediaShape a sh:NodeShape ;
+    sh:targetClass ex:InspectionMedia ;
+    sh:property [
+        sh:path schema:contentUrl ;
+        sh:datatype xsd:anyURI ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path schema:latitude ;
+        sh:datatype xsd:double ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path schema:longitude ;
+        sh:datatype xsd:double ;
+        sh:minCount 1 ;
+    ] .

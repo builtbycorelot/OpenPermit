@@ -1,0 +1,19 @@
+version: '3'
+services:
+  conduit:
+    image: matrixconduit/matrix-conduit:latest
+    container_name: openpermit-conduit
+    ports:
+      - "6167:6167"
+    environment:
+      - CONDUIT_SERVER_NAME=localhost
+      - CONDUIT_DATABASE_PATH=/var/lib/conduit/
+      - CONDUIT_MAX_REQUEST_SIZE=20000000
+      - CONDUIT_ALLOW_REGISTRATION=true
+      - CONDUIT_ALLOW_FEDERATION=false
+      - CONDUIT_TRUSTED_SERVERS=[]
+    volumes:
+      - conduit-data:/var/lib/conduit/
+    restart: unless-stopped
+volumes:
+  conduit-data:

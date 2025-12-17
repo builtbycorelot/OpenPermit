@@ -1,1 +1,5 @@
 jsonschema
+matrix-nio
+pyld
+rdflib
+pyshacl
