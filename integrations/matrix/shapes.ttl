@@ -1,0 +1,53 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix op: <https://openpermit.io/ontology#> .
+
+op:PermitEventShape a sh:NodeShape ;
+    sh:targetSubjectsOf op:permitId ;
+    sh:property [
+        sh:path op:permitId ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path op:occurredAt ;
+        sh:datatype xsd:dateTime ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path op:payload ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+    ] ;
+    sh:property [
+        sh:path op:status ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path op:actor ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path op:thread ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1 ;
+    ] .
+
+op:InspectionMediaShape a sh:NodeShape ;
+    sh:targetClass op:InspectionMedia ;
+    sh:property [
+        sh:path op:payload ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+    ] ;
+    sh:property [
+        sh:path op:payload/op:mediaPath ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path op:payload/op:location ;
+        sh:minCount 1 ;
+    ] .

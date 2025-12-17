@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  conduit:
+    image: matrixconduit/matrix-conduit:latest
+    container_name: openpermit-conduit
+    restart: unless-stopped
+    environment:
+      CONDUIT_SERVER_NAME: openpermit
+      CONDUIT_DATABASE_PATH: /var/lib/matrix-conduit/
+      CONDUIT_ADDRESS: 0.0.0.0
+      CONDUIT_PORT: 6167
+      CONDUIT_ALLOW_REGISTRATION: "true"
+      CONDUIT_ALLOW_ENCRYPTION: "true"
+    volumes:
+      - conduit-data:/var/lib/matrix-conduit
+    ports:
+      - "6167:6167"
+volumes:
+  conduit-data:
