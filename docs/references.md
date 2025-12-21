@@ -34,7 +34,7 @@ This document lists key research papers, standards, and policy frameworks that i
 
 ## Open Standards and Models for BIM/GIS
 - **buildingSMART International (2021).** [IFC Schema Specification](https://technical.buildingsmart.org/standards/ifc/)
-- **buildingSMART International (2022).** [IFC JSON Proposal](https://github.com/buildingSMART/ifc-json)
+- **buildingSMART International (2022).** [IFC Documentation](https://technical.buildingsmart.org/)
 - **CityJSON (2023).** [CityJSON Specification](https://www.cityjson.org)
 - **Open Geospatial Consortium (OGC) (2021).** [OGC InfraGML Encoding Standard](https://www.ogc.org/standards/infragml)
 - **buildingSMART International (n.d.).** [About openBIM](https://www.buildingsmart.org/about/openbim/)

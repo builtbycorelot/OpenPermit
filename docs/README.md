@@ -43,14 +43,14 @@ OpenPermit is an open-source initiative that makes building and energy infrastru
 - [ISO Standards Reference](iso_standard.md) — International standards underpinning the platform.
 
 ## Deep Dive Library
-- **Community & Engagement.** [Public Engagement Program](public_engagement.md) · [Project Discussion Board](https://github.com/SheetPros/OpenPermit/discussions)
+- **Community & Engagement.** [Public Engagement Program](public_engagement.md) · [Project Discussion Board](https://github.com/builtbycorelot/OpenPermit/issues)
 - **Programs & Pilots.** [Remote Inspection Playbook](remote_inspections.md) · [Spotsylvania Innovation Sandbox](../example/spotsylvania-innovation-sandbox.html)
 - **Learning Resources.** [Example Payloads](../example) · [CLI Documentation](../cli/README.md) · [Node Framework Demo](../example/index.html)
 - **Research & References.** [References](references.md) · [NIEM ↔ NFL Alignment (6.0)](niem-alignment-6.0.md) · [ISO Standards](iso_standard.md)
 
 ## Get Involved
 1. Read the [Repository Overview](../README.md) and [Standards & Processes](../standards.md).
-2. Join conversations in the [Project Discussion Board](https://github.com/SheetPros/OpenPermit/discussions) or open an [issue](https://github.com/SheetPros/OpenPermit/issues/new).
+2. Join conversations in the [Project Discussion Board](https://github.com/builtbycorelot/OpenPermit/issues) or open an [issue](https://github.com/builtbycorelot/OpenPermit/issues/new).
 3. Contribute code, policy research, or field feedback through pull requests. Be sure to review the [Contributing Guide](https://github.com/SheetPros/OpenPermit/blob/main/CONTRIBUTING.md) and [Security Policy](../SECURITY.md).
 4. Share success stories from affordable housing, energy retrofits, and infrastructure modernization projects so we can highlight them for others.
 

@@ -19,5 +19,5 @@ OpenPermit supports collaborative review environments where project teams and mu
 
 ## Next steps
 - Contribute viewer adapters or integrations with open-source BIM viewers.
-- Share feedback from pilot implementations in the [Project Discussion Board](https://github.com/SheetPros/OpenPermit/discussions).
+- Share feedback from pilot implementations in the [Project Discussion Board](https://github.com/builtbycorelot/OpenPermit/issues).
 - Help design accessibility features so every reviewer can participate effectively.
