@@ -3,9 +3,30 @@ info:
   title: OpenPermit Unified API Catalog
   version: 1.0.0
   description: |
-    **Unified API catalog integrating REST, MCP, and gRPC paradigms**
+    **Business/Civic Interface Specification for Enhanced Permitting**
 
-    This specification serves as the single source of truth for all OpenPermit API interfaces:
+    This is a **specification and standard**, not a runtime implementation.
+    It defines the data contracts and integration points that enable an
+    open-source permit ecosystem.
+
+    ## What This IS
+    - **API Contract Specification**: OpenAPI 3.1 schema defining endpoints and data models
+    - **Data Exchange Standard**: JSON-LD schemas for permit data interoperability
+    - **Integration Framework**: How permit systems, BIM tools, and civic platforms connect
+    - **Validation Rule Format**: Standard for expressing building code as deterministic logic
+
+    ## What This is NOT
+    - ❌ Not a running application or SaaS platform
+    - ❌ Not a workflow execution engine
+    - ❌ Not a permit management system implementation
+    - ❌ Not vendor-specific software
+
+    ## Purpose
+    Enable jurisdictions, vendors, and civic platforms to build **interoperable
+    permit systems** using open standards. Anyone can implement this specification
+    in their choice of technology.
+
+    ## Interface Paradigms
     - **REST/OpenAPI**: Traditional HTTP endpoints for permit management
     - **MCP (Model Context Protocol)**: LLM-discoverable tools for AI integration
     - **gRPC**: High-performance RPC with protobuf definitions
@@ -13,8 +34,9 @@ info:
 
     ## Key Principles
     - Schema-first: Structured permit data as public infrastructure
-    - Permit-by-rule: Automated validation for instant approvals
-    - Interoperability: REST, MCP, and gRPC from single spec
+    - Permit-by-rule: Automated validation enables instant approvals
+    - Vendor-neutral: Open standard, not proprietary lock-in
+    - Implementation-agnostic: Jurisdictions choose their own tech stack
 
   contact:
     name: OpenPermit Project

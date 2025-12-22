@@ -1,10 +1,26 @@
 # OpenPermit Knowledge Packs
 
-**Deterministic building code validation rules** for IFC model code checking.
+**Specification Format for Deterministic Building Code Validation**
 
 ## What Are Knowledge Packs?
 
-Knowledge packs are **collections of deterministic validation rules** that encode building code requirements as executable code. They enable **permit-by-rule** through automated, objective code compliance checking.
+Knowledge packs are **standard formats for expressing building code requirements** as deterministic validation logic. They define how jurisdictions and vendors can publish machine-readable code rules.
+
+This is a **specification and data format**, not a running validation engine.
+
+### What This IS
+- **Rule specification format** — Standard JSON-LD schema for validation rules
+- **Data contract** — How validation rules are expressed and exchanged
+- **Reference implementation** — Example Python code showing deterministic approach
+- **Open standard** — Anyone can implement validators using this format
+
+### What This is NOT
+- ❌ Not a running validation server or SaaS
+- ❌ Not a workflow execution engine
+- ❌ Not vendor-specific software
+- ❌ Not AI-based code interpretation (deterministic only)
+
+Think of this like **GTFS (transit data format)** — a standard that many vendors implement, not a single application.
 
 ### Key Principles
 

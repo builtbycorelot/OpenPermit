@@ -21,7 +21,26 @@ This requires:
 2. **Rules as code** — Building codes expressed as deterministic validation logic
 3. **Automated validation** — Instant feedback on code compliance before submission
 
-OpenPermit provides the **open-source data layer and validation infrastructure** to make permit-by-rule real.
+OpenPermit provides the **open standards and specifications** to make permit-by-rule real.
+
+### What OpenPermit IS
+
+**A set of open standards and specifications:**
+- **Data schemas** (JSON-LD) for structured permit applications
+- **API contracts** (OpenAPI 3.1) for how systems exchange permit data
+- **Validation rule format** for expressing building codes as deterministic logic
+- **Integration specifications** for CKAN, NIEM, BLDS, BCF, IFC interoperability
+
+**Anyone can implement these standards** in their jurisdiction or software product.
+
+### What OpenPermit is NOT
+
+- ❌ Not a running application, SaaS, or hosted service
+- ❌ Not a workflow engine or permit management system
+- ❌ Not vendor-specific software requiring licenses
+- ❌ Not a centralized database
+
+**Think of this like TCP/IP or HTTP** — open protocols that enable an ecosystem, not a single implementation.
 
 ## How It Drives Affordable Housing
 

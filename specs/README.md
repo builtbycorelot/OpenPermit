@@ -1,12 +1,33 @@
 # OpenPermit API Specifications
 
-This directory contains the **unified API catalog** for OpenPermit — a single source of truth integrating REST, MCP, and gRPC paradigms.
+**Business/Civic Interface Standard for Enhanced Permitting**
+
+This directory contains the **unified API catalog** — a specification and data contract, not a runtime implementation.
+
+## What This Is
+
+This is a **standard/specification layer** that defines:
+- Data schemas for permit applications, inspections, validation results
+- API contracts for how systems exchange permit data
+- Integration points for BIM tools, CKAN portals, federal systems
+- Validation rule format for building code as deterministic logic
+
+**Anyone can implement this specification** in their choice of technology (Node.js, Python, Java, .NET, etc.).
+
+## What This Is NOT
+
+- ❌ Not a running server or SaaS application
+- ❌ Not a workflow execution engine
+- ❌ Not a complete permit management system
+- ❌ Not vendor-specific software requiring licenses
+
+Think of this like **HTTP** or **TCP/IP** — it's a protocol specification that enables interoperability, not an implementation.
 
 ## Overview
 
 ### unified-api-catalog.yaml
 
-**OpenAPI 3.1 specification** serving as the meta-framework for all API interfaces:
+**OpenAPI 3.1 specification** serving as the business/civic interface contract:
 
 - ✅ **REST/OpenAPI endpoints** — Traditional HTTP APIs for permit management
 - ✅ **JSON-LD schemas** — Semantic web integration with NIEM 6.0
