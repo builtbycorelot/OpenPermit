@@ -9,7 +9,7 @@ This document outlines how Industry Foundation Classes (IFC) files should be val
    - Ensure that geometry and property sets are defined according to the EXPRESS schema.
 
 2. **Check JSON representations**
-   - When IFC models are provided in JSON form (e.g., IFC.JSON), validate them using [buildingSMART's IFC JSON schema](https://github.com/buildingSMART/ifc-json) or similar libraries.
+   - When IFC models are provided in JSON form (e.g., IFC.JSON), validate them using buildingSMART's IFC specifications at [technical.buildingsmart.org](https://technical.buildingsmart.org/) or similar libraries.
 
 ## 2. Code and Rule Compliance
 
