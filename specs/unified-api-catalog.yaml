@@ -41,6 +41,12 @@ tags:
     description: Building inspections and findings
   - name: Validation
     description: Code compliance validation
+  - name: Knowledge Packs
+    description: Deterministic building code validation rules
+  - name: CKAN
+    description: Open data publishing to CKAN portals
+  - name: Ecosystem
+    description: Integration with BCF, BLDS, NIEM standards
   - name: Nodes
     description: Ontological node framework
   - name: Crosswalks
@@ -487,6 +493,391 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Crosswalk'
+
+  # ============================================================================
+  # KNOWLEDGE PACK ENDPOINTS (Deterministic Validation Rules)
+  # ============================================================================
+
+  /knowledge-packs:
+    get:
+      tags: [Knowledge Packs]
+      summary: List available validation rule packs
+      operationId: listKnowledgePacks
+      parameters:
+        - name: code
+          in: query
+          schema:
+            type: string
+            enum: [IRC2021, IBC2021, IECC2021, IRC2024, IBC2024]
+        - name: jurisdiction
+          in: query
+          schema:
+            type: string
+            description: Filter by jurisdiction-specific packs
+      responses:
+        '200':
+          description: List of knowledge packs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  knowledgePacks:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/KnowledgePack'
+
+  /knowledge-packs/{packId}:
+    get:
+      tags: [Knowledge Packs]
+      summary: Get knowledge pack details
+      operationId: getKnowledgePack
+      parameters:
+        - name: packId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Knowledge pack with all rules
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KnowledgePack'
+
+  /knowledge-packs/{packId}/rules:
+    get:
+      tags: [Knowledge Packs]
+      summary: Get all rules in a knowledge pack
+      operationId: getPackRules
+      parameters:
+        - name: packId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of validation rules
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ValidationRule'
+
+  /knowledge-packs/{packId}/rules/{ruleId}:
+    get:
+      tags: [Knowledge Packs]
+      summary: Get specific validation rule
+      operationId: getValidationRule
+      parameters:
+        - name: packId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: ruleId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Validation rule details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationRule'
+
+  /knowledge-packs/validate-element:
+    post:
+      tags: [Knowledge Packs]
+      summary: Validate single IFC element against specific rule
+      operationId: validateElement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [ifcElement, ruleId]
+              properties:
+                ifcElement:
+                  type: object
+                  description: IFC element data (JSON representation)
+                ruleId:
+                  type: string
+                  description: Validation rule to apply
+                packId:
+                  type: string
+      responses:
+        '200':
+          description: Element validation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ElementValidationResult'
+
+  # ============================================================================
+  # CKAN PUBLISHING ENDPOINTS
+  # ============================================================================
+
+  /ckan/datasets:
+    post:
+      tags: [CKAN]
+      summary: Publish permit data to CKAN portal
+      operationId: publishToCKAN
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [ckanUrl, apiKey, dataset]
+              properties:
+                ckanUrl:
+                  type: string
+                  format: uri
+                  description: CKAN portal URL (e.g., https://data.cityname.gov)
+                apiKey:
+                  type: string
+                  description: CKAN API key for authentication
+                dataset:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    title:
+                      type: string
+                    description:
+                      type: string
+                    tags:
+                      type: array
+                      items:
+                        type: string
+                    resources:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          url:
+                            type: string
+                          name:
+                            type: string
+                          format:
+                            type: string
+      responses:
+        '201':
+          description: Dataset published to CKAN
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  datasetId:
+                    type: string
+                  ckanUrl:
+                    type: string
+
+  /ckan/export:
+    post:
+      tags: [CKAN]
+      summary: Export permits to CKAN-compatible format
+      operationId: exportForCKAN
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [permitIds]
+              properties:
+                permitIds:
+                  type: array
+                  items:
+                    type: string
+                format:
+                  type: string
+                  enum: [json-ld, csv, geojson]
+                  default: json-ld
+      responses:
+        '200':
+          description: Exported data ready for CKAN
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  exportUrl:
+                    type: string
+                    format: uri
+                  format:
+                    type: string
+                  recordCount:
+                    type: integer
+
+  # ============================================================================
+  # ECOSYSTEM INTEGRATION ENDPOINTS
+  # ============================================================================
+
+  /ecosystem/bcf/issues:
+    post:
+      tags: [Ecosystem]
+      summary: Create BCF issue from inspection finding
+      operationId: createBCFIssue
+      description: Convert inspection finding to BIM Collaboration Format issue
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [findingId, ifcGlobalId]
+              properties:
+                findingId:
+                  type: string
+                ifcGlobalId:
+                  type: string
+                issueType:
+                  type: string
+                priority:
+                  type: string
+                  enum: [low, medium, high, critical]
+      responses:
+        '201':
+          description: BCF issue created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BCFIssue'
+
+  /ecosystem/blds/export:
+    post:
+      tags: [Ecosystem]
+      summary: Export to BLDS (Building & Land Development Specification) format
+      operationId: exportToBLDS
+      description: HUD/Census standard format for permit data
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [permitIds]
+              properties:
+                permitIds:
+                  type: array
+                  items:
+                    type: string
+                reportingPeriod:
+                  type: object
+                  properties:
+                    startDate:
+                      type: string
+                      format: date
+                    endDate:
+                      type: string
+                      format: date
+      responses:
+        '200':
+          description: BLDS export ready
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  exportUrl:
+                    type: string
+                    format: uri
+                  format:
+                    type: string
+                    default: BLDS-JSON
+                  recordCount:
+                    type: integer
+
+  /ecosystem/niem/export:
+    post:
+      tags: [Ecosystem]
+      summary: Export to NIEM 6.0 format
+      operationId: exportToNIEM
+      description: National Information Exchange Model for federal interoperability
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [dataType]
+              properties:
+                dataType:
+                  type: string
+                  enum: [permits, inspections, applications]
+                entityIds:
+                  type: array
+                  items:
+                    type: string
+                niemDomain:
+                  type: string
+                  enum: [justice, infrastructure, emergency]
+      responses:
+        '200':
+          description: NIEM 6.0 export ready
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  exportUrl:
+                    type: string
+                  niemVersion:
+                    type: string
+                    default: "6.0"
+                  domain:
+                    type: string
+
+  /ecosystem/ifc/link:
+    post:
+      tags: [Ecosystem]
+      summary: Link permit data to IFC building model
+      operationId: linkToIFC
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [permitId, ifcModelUrl]
+              properties:
+                permitId:
+                  type: string
+                ifcModelUrl:
+                  type: string
+                  format: uri
+                elementMappings:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      permitComponent:
+                        type: string
+                      ifcGlobalId:
+                        type: string
+      responses:
+        '200':
+          description: IFC linkage created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  linkageId:
+                    type: string
+                  mappedElements:
+                    type: integer
 
 components:
   schemas:
@@ -1008,6 +1399,168 @@ components:
         description:
           type: string
 
+    # ========================================================================
+    # KNOWLEDGE PACK SCHEMAS
+    # ========================================================================
+
+    KnowledgePack:
+      type: object
+      required: [id, code, version, rules]
+      properties:
+        '@context':
+          type: string
+          default: 'https://schema.openpermit.org/v1'
+        '@type':
+          type: string
+          default: 'KnowledgePack'
+        id:
+          type: string
+          description: Pack identifier (e.g., IRC2021, IBC2021-austin-tx)
+        code:
+          type: string
+          enum: [IRC2021, IBC2021, IECC2021, IRC2024, IBC2024]
+        version:
+          type: string
+          description: Semantic version of the pack
+        jurisdiction:
+          type: string
+          description: Jurisdiction-specific amendments (if any)
+        license:
+          type: string
+          default: MIT
+        description:
+          type: string
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationRule'
+        metadata:
+          type: object
+          properties:
+            author:
+              type: string
+            publishedDate:
+              type: string
+              format: date
+            codeEdition:
+              type: string
+
+    ValidationRule:
+      type: object
+      required: [id, codeReference, ruleType, checkFunction]
+      properties:
+        id:
+          type: string
+          description: Unique rule identifier (e.g., IRC-R602.3-stud-spacing)
+        codeReference:
+          type: string
+          description: Building code section (e.g., IRC R602.3)
+        ruleType:
+          type: string
+          enum: [dimensional, spacing, material, quantity, clearance, structural]
+        checkFunction:
+          type: string
+          description: Deterministic validation logic (code or reference)
+        applicability:
+          type: object
+          description: Conditions where rule applies
+          properties:
+            elementType:
+              type: string
+              description: IFC element type (e.g., IfcWall, IfcSlab)
+            occupancyType:
+              type: array
+              items:
+                type: string
+            constructionType:
+              type: array
+              items:
+                type: string
+        parameters:
+          type: object
+          description: Rule parameters (max values, thresholds, etc.)
+        description:
+          type: string
+        testCases:
+          type: array
+          description: Known-good and known-bad test examples
+          items:
+            type: object
+            properties:
+              input:
+                type: object
+              expectedResult:
+                type: string
+                enum: [pass, fail, not_applicable]
+
+    ElementValidationResult:
+      type: object
+      properties:
+        ifcGlobalId:
+          type: string
+        ifcElementType:
+          type: string
+        ruleId:
+          type: string
+        codeReference:
+          type: string
+        result:
+          type: string
+          enum: [pass, fail, not_applicable]
+        message:
+          type: string
+        measuredValue:
+          oneOf:
+            - type: number
+            - type: string
+        requiredValue:
+          oneOf:
+            - type: number
+            - type: string
+        timestamp:
+          type: string
+          format: date-time
+
+    # ========================================================================
+    # ECOSYSTEM INTEGRATION SCHEMAS
+    # ========================================================================
+
+    BCFIssue:
+      type: object
+      description: BIM Collaboration Format issue
+      properties:
+        guid:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        issueType:
+          type: string
+        priority:
+          type: string
+        status:
+          type: string
+          enum: [open, in_progress, resolved, closed]
+        ifcGlobalId:
+          type: string
+        viewpoint:
+          type: object
+          properties:
+            camera:
+              type: object
+            snapshot:
+              type: string
+              format: uri
+        creationDate:
+          type: string
+          format: date-time
+        assignedTo:
+          type: string
+        dueDate:
+          type: string
+          format: date
+
   # ==========================================================================
   # MCP TOOLS CATALOG (for LLM Discovery)
   # ==========================================================================
@@ -1180,6 +1733,166 @@ components:
       handler:
         method: POST
         path: /crosswalks
+
+    - name: list_knowledge_packs
+      description: List available building code validation rule packs (IRC, IBC, IECC)
+      inputSchema:
+        type: object
+        properties:
+          code:
+            type: string
+            enum: [IRC2021, IBC2021, IECC2021]
+          jurisdiction:
+            type: string
+      handler:
+        method: GET
+        path: /knowledge-packs
+
+    - name: get_validation_rules
+      description: Get all validation rules from a knowledge pack
+      inputSchema:
+        type: object
+        required: [packId]
+        properties:
+          packId:
+            type: string
+            description: Pack ID (e.g., IRC2021, IBC2021-austin-tx)
+      handler:
+        method: GET
+        path: /knowledge-packs/{packId}/rules
+
+    - name: validate_ifc_element
+      description: Validate a single IFC element against a specific building code rule
+      inputSchema:
+        type: object
+        required: [ifcElement, ruleId]
+        properties:
+          ifcElement:
+            type: object
+            description: IFC element data (JSON representation)
+          ruleId:
+            type: string
+            description: Validation rule ID (e.g., IRC-R602.3-stud-spacing)
+          packId:
+            type: string
+      handler:
+        method: POST
+        path: /knowledge-packs/validate-element
+
+    - name: publish_to_ckan
+      description: Publish permit data to a CKAN open data portal
+      inputSchema:
+        type: object
+        required: [ckanUrl, apiKey, dataset]
+        properties:
+          ckanUrl:
+            type: string
+            format: uri
+            description: CKAN portal URL (e.g., https://data.cityname.gov)
+          apiKey:
+            type: string
+          dataset:
+            type: object
+            properties:
+              name:
+                type: string
+              title:
+                type: string
+              description:
+                type: string
+              tags:
+                type: array
+                items:
+                  type: string
+      handler:
+        method: POST
+        path: /ckan/datasets
+
+    - name: export_to_blds
+      description: Export permit data to BLDS (HUD/Census) format for federal reporting
+      inputSchema:
+        type: object
+        required: [permitIds]
+        properties:
+          permitIds:
+            type: array
+            items:
+              type: string
+          reportingPeriod:
+            type: object
+            properties:
+              startDate:
+                type: string
+                format: date
+              endDate:
+                type: string
+                format: date
+      handler:
+        method: POST
+        path: /ecosystem/blds/export
+
+    - name: export_to_niem
+      description: Export data to NIEM 6.0 format for federal interoperability
+      inputSchema:
+        type: object
+        required: [dataType, entityIds]
+        properties:
+          dataType:
+            type: string
+            enum: [permits, inspections, applications]
+          entityIds:
+            type: array
+            items:
+              type: string
+          niemDomain:
+            type: string
+            enum: [justice, infrastructure, emergency]
+      handler:
+        method: POST
+        path: /ecosystem/niem/export
+
+    - name: create_bcf_issue
+      description: Create BIM Collaboration Format issue from inspection finding
+      inputSchema:
+        type: object
+        required: [findingId, ifcGlobalId]
+        properties:
+          findingId:
+            type: string
+          ifcGlobalId:
+            type: string
+          issueType:
+            type: string
+          priority:
+            type: string
+            enum: [low, medium, high, critical]
+      handler:
+        method: POST
+        path: /ecosystem/bcf/issues
+
+    - name: link_permit_to_ifc
+      description: Link permit data to IFC building model elements
+      inputSchema:
+        type: object
+        required: [permitId, ifcModelUrl]
+        properties:
+          permitId:
+            type: string
+          ifcModelUrl:
+            type: string
+            format: uri
+          elementMappings:
+            type: array
+            items:
+              type: object
+              properties:
+                permitComponent:
+                  type: string
+                ifcGlobalId:
+                  type: string
+      handler:
+        method: POST
+        path: /ecosystem/ifc/link
 
   # ==========================================================================
   # GRPC PROTOBUF DEFINITIONS

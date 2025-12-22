@@ -1,0 +1,184 @@
+{
+  "@context": "https://schema.openpermit.org/v1",
+  "@type": "KnowledgePack",
+  "id": "IRC2021",
+  "code": "IRC2021",
+  "version": "1.0.0",
+  "license": "MIT",
+  "description": "International Residential Code 2021 Edition - Deterministic validation rules for prescriptive residential construction",
+  "jurisdiction": null,
+  "metadata": {
+    "author": "OpenPermit Project",
+    "publishedDate": "2024-01-15",
+    "codeEdition": "IRC 2021",
+    "codePublisher": "International Code Council",
+    "scope": "Prescriptive residential construction per IRC 2021",
+    "notes": "This pack includes deterministic rules for objective code requirements. Performance-based designs and engineered systems require professional review."
+  },
+  "rules": [
+    {
+      "id": "IRC-R602.3-stud-spacing",
+      "codeReference": "IRC R602.3",
+      "ruleType": "spacing",
+      "checkFunction": "knowledge-packs/IRC2021/irc_r602_framing.py::check_stud_spacing",
+      "applicability": {
+        "elementType": "IfcWall",
+        "conditions": {
+          "isLoadBearing": true,
+          "floorsSupported": 1
+        }
+      },
+      "parameters": {
+        "maxSpacing": 16.0,
+        "unit": "inches"
+      },
+      "description": "Studs shall be spaced at not more than 16 inches on center for load-bearing walls supporting one floor, roof and ceiling.",
+      "testCases": [
+        {
+          "name": "Compliant 16\" spacing",
+          "input": {
+            "ifcGlobalId": "test-001",
+            "isLoadBearing": true,
+            "studSpacing": 16.0,
+            "floorsSupported": 1
+          },
+          "expectedResult": "pass"
+        },
+        {
+          "name": "Compliant 12\" spacing",
+          "input": {
+            "ifcGlobalId": "test-002",
+            "isLoadBearing": true,
+            "studSpacing": 12.0,
+            "floorsSupported": 1
+          },
+          "expectedResult": "pass"
+        },
+        {
+          "name": "Non-compliant 20\" spacing",
+          "input": {
+            "ifcGlobalId": "test-003",
+            "isLoadBearing": true,
+            "studSpacing": 20.0,
+            "floorsSupported": 1
+          },
+          "expectedResult": "fail"
+        },
+        {
+          "name": "Non-load-bearing wall (not applicable)",
+          "input": {
+            "ifcGlobalId": "test-004",
+            "isLoadBearing": false,
+            "studSpacing": 24.0,
+            "floorsSupported": 0
+          },
+          "expectedResult": "not_applicable"
+        }
+      ]
+    },
+    {
+      "id": "IRC-R305.1-ceiling-height",
+      "codeReference": "IRC R305.1",
+      "ruleType": "dimensional",
+      "checkFunction": "knowledge-packs/IRC2021/irc_r602_framing.py::check_ceiling_height",
+      "applicability": {
+        "elementType": "IfcSpace",
+        "conditions": {
+          "spaceType": ["bedroom", "living room", "dining room", "family room", "den"]
+        }
+      },
+      "parameters": {
+        "minHeight": 7.0,
+        "unit": "feet"
+      },
+      "description": "Habitable rooms shall have a ceiling height of not less than 7 feet (2134 mm).",
+      "testCases": [
+        {
+          "name": "Compliant 8' ceiling",
+          "input": {
+            "ifcGlobalId": "test-101",
+            "spaceType": "bedroom",
+            "ceilingHeight": 8.0
+          },
+          "expectedResult": "pass"
+        },
+        {
+          "name": "Minimum compliant 7' ceiling",
+          "input": {
+            "ifcGlobalId": "test-102",
+            "spaceType": "living room",
+            "ceilingHeight": 7.0
+          },
+          "expectedResult": "pass"
+        },
+        {
+          "name": "Non-compliant 6.5' ceiling",
+          "input": {
+            "ifcGlobalId": "test-103",
+            "spaceType": "bedroom",
+            "ceilingHeight": 6.5
+          },
+          "expectedResult": "fail"
+        },
+        {
+          "name": "Bathroom (not applicable)",
+          "input": {
+            "ifcGlobalId": "test-104",
+            "spaceType": "bathroom",
+            "ceilingHeight": 6.5
+          },
+          "expectedResult": "not_applicable"
+        }
+      ]
+    },
+    {
+      "id": "IRC-R310.2.1-egress-area",
+      "codeReference": "IRC R310.2.1",
+      "ruleType": "dimensional",
+      "checkFunction": "knowledge-packs/IRC2021/irc_r602_framing.py::check_egress_window_area",
+      "applicability": {
+        "elementType": "IfcWindow",
+        "conditions": {
+          "isEgressWindow": true
+        }
+      },
+      "parameters": {
+        "minArea": 5.7,
+        "unit": "square feet"
+      },
+      "description": "Emergency egress and rescue openings shall have a minimum net clear opening of 5.7 square feet (0.530 m²).",
+      "testCases": [
+        {
+          "name": "Compliant egress window",
+          "input": {
+            "ifcGlobalId": "test-201",
+            "isEgressWindow": true,
+            "clearOpeningArea": 6.0,
+            "locatedInBasement": false
+          },
+          "expectedResult": "pass"
+        },
+        {
+          "name": "Non-compliant egress window",
+          "input": {
+            "ifcGlobalId": "test-202",
+            "isEgressWindow": true,
+            "clearOpeningArea": 5.0,
+            "locatedInBasement": false
+          },
+          "expectedResult": "fail"
+        },
+        {
+          "name": "Non-egress window (not applicable)",
+          "input": {
+            "ifcGlobalId": "test-203",
+            "isEgressWindow": false,
+            "clearOpeningArea": 3.0,
+            "locatedInBasement": false
+          },
+          "expectedResult": "not_applicable"
+        }
+      ]
+    }
+  ]
+}
