@@ -1,0 +1,1377 @@
+openapi: 3.1.0
+info:
+  title: OpenPermit Unified API Catalog
+  version: 1.0.0
+  description: |
+    **Unified API catalog integrating REST, MCP, and gRPC paradigms**
+
+    This specification serves as the single source of truth for all OpenPermit API interfaces:
+    - **REST/OpenAPI**: Traditional HTTP endpoints for permit management
+    - **MCP (Model Context Protocol)**: LLM-discoverable tools for AI integration
+    - **gRPC**: High-performance RPC with protobuf definitions
+    - **JSON-LD**: Semantic web schemas aligned with NIEM 6.0
+
+    ## Key Principles
+    - Schema-first: Structured permit data as public infrastructure
+    - Permit-by-rule: Automated validation for instant approvals
+    - Interoperability: REST, MCP, and gRPC from single spec
+
+  contact:
+    name: OpenPermit Project
+    email: j@corelot.net
+    url: https://github.com/builtbycorelot/OpenPermit
+  license:
+    name: MIT
+    identifier: MIT
+
+servers:
+  - url: https://api.openpermit.org/v1
+    description: Production API
+  - url: http://localhost:3000/v1
+    description: Local development
+  - url: https://staging-api.openpermit.org/v1
+    description: Staging environment
+
+tags:
+  - name: Applications
+    description: Permit application submission and management
+  - name: Permits
+    description: Issued permits and lifecycle management
+  - name: Inspections
+    description: Building inspections and findings
+  - name: Validation
+    description: Code compliance validation
+  - name: Nodes
+    description: Ontological node framework
+  - name: Crosswalks
+    description: Standard-to-standard mappings
+
+paths:
+  # ============================================================================
+  # APPLICATION ENDPOINTS
+  # ============================================================================
+
+  /applications:
+    get:
+      tags: [Applications]
+      summary: List permit applications
+      operationId: listApplications
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [draft, submitted, under review, approved, rejected, withdrawn]
+        - name: applicantId
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+            maximum: 100
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: List of applications
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  applications:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Application'
+                  total:
+                    type: integer
+                  limit:
+                    type: integer
+                  offset:
+                    type: integer
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ApplicationCollection'
+
+    post:
+      tags: [Applications]
+      summary: Create new permit application
+      operationId: createApplication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationRequest'
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/ApplicationRequest'
+      responses:
+        '201':
+          description: Application created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Application'
+
+  /applications/{applicationId}:
+    get:
+      tags: [Applications]
+      summary: Get application by ID
+      operationId: getApplication
+      parameters:
+        - name: applicationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Application details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Application'
+
+    patch:
+      tags: [Applications]
+      summary: Update application
+      operationId: updateApplication
+      parameters:
+        - name: applicationId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationUpdate'
+      responses:
+        '200':
+          description: Application updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+
+  /applications/{applicationId}/submit:
+    post:
+      tags: [Applications]
+      summary: Submit application for review
+      operationId: submitApplication
+      parameters:
+        - name: applicationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Application submitted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+
+  # ============================================================================
+  # PERMIT ENDPOINTS
+  # ============================================================================
+
+  /permits:
+    get:
+      tags: [Permits]
+      summary: List permits
+      operationId: listPermits
+      parameters:
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [building, environmental, event, zoning, utility, transportation, other]
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [pending, issued, active, expired, revoked, suspended]
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: List of permits
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  permits:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Permit'
+                  total:
+                    type: integer
+
+  /permits/{permitId}:
+    get:
+      tags: [Permits]
+      summary: Get permit by ID
+      operationId: getPermit
+      parameters:
+        - name: permitId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Permit details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Permit'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Permit'
+
+  # ============================================================================
+  # INSPECTION ENDPOINTS
+  # ============================================================================
+
+  /inspections:
+    post:
+      tags: [Inspections]
+      summary: Schedule an inspection
+      operationId: scheduleInspection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InspectionRequest'
+      responses:
+        '201':
+          description: Inspection scheduled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Inspection'
+
+  /inspections/{inspectionId}:
+    get:
+      tags: [Inspections]
+      summary: Get inspection details
+      operationId: getInspection
+      parameters:
+        - name: inspectionId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Inspection details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Inspection'
+
+  /inspections/{inspectionId}/findings:
+    post:
+      tags: [Inspections]
+      summary: Submit inspection findings
+      operationId: submitFindings
+      parameters:
+        - name: inspectionId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FindingRequest'
+      responses:
+        '201':
+          description: Findings recorded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Finding'
+
+  # ============================================================================
+  # VALIDATION ENDPOINTS
+  # ============================================================================
+
+  /validate/ifc:
+    post:
+      tags: [Validation]
+      summary: Validate IFC building model against code
+      operationId: validateIFC
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [modelUrl, code]
+              properties:
+                modelUrl:
+                  type: string
+                  format: uri
+                  description: URL to IFC model file
+                code:
+                  type: string
+                  enum: [IRC2021, IBC2021, IECC2021]
+                  description: Building code to validate against
+                jurisdiction:
+                  type: string
+                  description: Jurisdiction-specific amendments
+      responses:
+        '200':
+          description: Validation results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResult'
+
+  /validate/application:
+    post:
+      tags: [Validation]
+      summary: Validate permit application data
+      operationId: validateApplication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationRequest'
+      responses:
+        '200':
+          description: Validation results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResult'
+
+  # ============================================================================
+  # NODE FRAMEWORK ENDPOINTS
+  # ============================================================================
+
+  /nodes:
+    post:
+      tags: [Nodes]
+      summary: Create a new node
+      operationId: createNode
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NodeRequest'
+      responses:
+        '201':
+          description: Node created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Node'
+
+  /nodes/{nodeId}:
+    get:
+      tags: [Nodes]
+      summary: Get node by ID
+      operationId: getNode
+      parameters:
+        - name: nodeId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Node details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Node'
+
+  /nodes/{nodeId}/validate:
+    post:
+      tags: [Nodes]
+      summary: Validate a node
+      operationId: validateNode
+      parameters:
+        - name: nodeId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Validation results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeValidationResult'
+
+  # ============================================================================
+  # CROSSWALK ENDPOINTS
+  # ============================================================================
+
+  /crosswalks:
+    post:
+      tags: [Crosswalks]
+      summary: Create a crosswalk between nodes
+      operationId: createCrosswalk
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [sourceNodeId, targetNodeId]
+              properties:
+                sourceNodeId:
+                  type: string
+                targetNodeId:
+                  type: string
+                mappingRules:
+                  type: object
+      responses:
+        '201':
+          description: Crosswalk created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Crosswalk'
+
+  /crosswalks/{crosswalkId}:
+    get:
+      tags: [Crosswalks]
+      summary: Get crosswalk by ID
+      operationId: getCrosswalk
+      parameters:
+        - name: crosswalkId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Crosswalk details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Crosswalk'
+
+components:
+  schemas:
+    # ========================================================================
+    # CORE APPLICATION SCHEMAS
+    # ========================================================================
+
+    Application:
+      type: object
+      required: [id, status, project]
+      properties:
+        '@context':
+          type: string
+          default: 'https://schema.openpermit.org/v1'
+        '@type':
+          type: string
+          default: 'Application'
+        '@id':
+          type: string
+          format: uri
+        id:
+          type: string
+        status:
+          type: string
+          enum: [draft, submitted, under review, approved, rejected, withdrawn]
+        submittedDate:
+          type: string
+          format: date-time
+        reviewDate:
+          type: string
+          format: date-time
+        decisionDate:
+          type: string
+          format: date-time
+        location:
+          $ref: '#/components/schemas/Location'
+        stakeholders:
+          type: array
+          items:
+            $ref: '#/components/schemas/Stakeholder'
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+        fees:
+          type: array
+          items:
+            $ref: '#/components/schemas/Fee'
+        project:
+          $ref: '#/components/schemas/Project'
+        priority:
+          type: string
+          enum: [low, medium, high]
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Condition'
+
+    ApplicationRequest:
+      type: object
+      required: [project, applicant]
+      properties:
+        project:
+          $ref: '#/components/schemas/Project'
+        applicant:
+          $ref: '#/components/schemas/Applicant'
+        location:
+          $ref: '#/components/schemas/Location'
+        documents:
+          type: array
+          items:
+            type: string
+            format: uri
+
+    ApplicationUpdate:
+      type: object
+      properties:
+        status:
+          type: string
+        project:
+          $ref: '#/components/schemas/Project'
+        documents:
+          type: array
+          items:
+            type: string
+            format: uri
+
+    ApplicationCollection:
+      type: object
+      properties:
+        '@context':
+          type: string
+          default: 'https://schema.openpermit.org/v1'
+        '@type':
+          type: string
+          default: 'Collection'
+        member:
+          type: array
+          items:
+            $ref: '#/components/schemas/Application'
+        totalItems:
+          type: integer
+
+    # ========================================================================
+    # PERMIT SCHEMAS
+    # ========================================================================
+
+    Permit:
+      type: object
+      required: [id, type, status]
+      properties:
+        '@context':
+          type: string
+          default: 'https://schema.openpermit.org/v1'
+        '@type':
+          type: string
+          default: 'Permit'
+        '@id':
+          type: string
+          format: uri
+        id:
+          type: string
+        type:
+          type: string
+          enum: [building, environmental, event, zoning, utility, transportation, other]
+        status:
+          type: string
+          enum: [pending, issued, active, expired, revoked, suspended]
+        issuedDate:
+          type: string
+          format: date-time
+        effectiveDate:
+          type: string
+          format: date-time
+        expirationDate:
+          type: string
+          format: date-time
+        location:
+          $ref: '#/components/schemas/Location'
+        stakeholders:
+          type: array
+          items:
+            $ref: '#/components/schemas/Stakeholder'
+        inspections:
+          type: array
+          items:
+            $ref: '#/components/schemas/Inspection'
+        regulations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Regulation'
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Condition'
+
+    BuildingPermit:
+      allOf:
+        - $ref: '#/components/schemas/Permit'
+        - type: object
+          properties:
+            buildingType:
+              type: string
+              enum: [residential, commercial, industrial, institutional]
+            squareFootage:
+              type: number
+            height:
+              type: number
+            constructionMethod:
+              type: string
+            occupancyType:
+              type: string
+            ifcModel:
+              type: object
+              properties:
+                url:
+                  type: string
+                  format: uri
+                sha256:
+                  type: string
+                globalId:
+                  type: string
+
+    # ========================================================================
+    # INSPECTION SCHEMAS
+    # ========================================================================
+
+    Inspection:
+      type: object
+      required: [id, type, permitId]
+      properties:
+        '@context':
+          type: string
+          default: 'https://schema.openpermit.org/v1'
+        '@type':
+          type: string
+          default: 'Inspection'
+        id:
+          type: string
+        permitId:
+          type: string
+        type:
+          type: string
+          enum: [foundation, framing, rough_mechanical, rough_electrical, rough_plumbing, insulation, drywall, final]
+        status:
+          type: string
+          enum: [scheduled, in_progress, completed, failed, cancelled]
+        scheduledDate:
+          type: string
+          format: date-time
+        completedDate:
+          type: string
+          format: date-time
+        inspector:
+          $ref: '#/components/schemas/Inspector'
+        findings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Finding'
+        result:
+          type: string
+          enum: [pass, pass_with_conditions, fail, partial]
+
+    InspectionRequest:
+      type: object
+      required: [permitId, type, requestedDate]
+      properties:
+        permitId:
+          type: string
+        type:
+          type: string
+          enum: [foundation, framing, rough_mechanical, rough_electrical, rough_plumbing, insulation, drywall, final]
+        requestedDate:
+          type: string
+          format: date
+        inspectorId:
+          type: string
+        notes:
+          type: string
+
+    Finding:
+      type: object
+      required: [id, type, description]
+      properties:
+        id:
+          type: string
+        ifcGlobalId:
+          type: string
+          description: IFC element GlobalId this finding relates to
+        type:
+          type: string
+          enum: [pass, fail, conditional, not_applicable, deferred]
+        codeReference:
+          type: string
+        description:
+          type: string
+        photoUrls:
+          type: array
+          items:
+            type: string
+            format: uri
+        correctionRequired:
+          type: boolean
+
+    FindingRequest:
+      type: object
+      required: [type, description]
+      properties:
+        ifcGlobalId:
+          type: string
+        type:
+          type: string
+          enum: [pass, fail, conditional, not_applicable, deferred]
+        codeReference:
+          type: string
+        description:
+          type: string
+        photoUrls:
+          type: array
+          items:
+            type: string
+            format: uri
+        correctionRequired:
+          type: boolean
+
+    Inspector:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        certification:
+          type: string
+        jurisdictionAuthorized:
+          type: array
+          items:
+            type: string
+
+    # ========================================================================
+    # VALIDATION SCHEMAS
+    # ========================================================================
+
+    ValidationResult:
+      type: object
+      properties:
+        validationDate:
+          type: string
+          format: date-time
+        validator:
+          type: string
+        validatorVersion:
+          type: string
+        code:
+          type: string
+        result:
+          type: string
+          enum: [pass, fail, partial]
+        checksPassed:
+          type: integer
+        checksFailed:
+          type: integer
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              checkId:
+                type: string
+              codeReference:
+                type: string
+              result:
+                type: string
+                enum: [pass, fail, not_applicable]
+              message:
+                type: string
+              ifcGlobalId:
+                type: string
+
+    # ========================================================================
+    # NODE FRAMEWORK SCHEMAS
+    # ========================================================================
+
+    Node:
+      type: object
+      required: [id, type]
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        metadata:
+          type: object
+          properties:
+            name:
+              type: string
+            description:
+              type: string
+            version:
+              type: string
+        relationships:
+          type: array
+          items:
+            type: object
+            properties:
+              targetNodeId:
+                type: string
+              relationshipType:
+                type: string
+        validationRules:
+          type: array
+          items:
+            type: object
+
+    NodeRequest:
+      type: object
+      required: [type]
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        metadata:
+          type: object
+
+    NodeValidationResult:
+      type: object
+      properties:
+        valid:
+          type: boolean
+        errors:
+          type: array
+          items:
+            type: string
+        warnings:
+          type: array
+          items:
+            type: string
+
+    Crosswalk:
+      type: object
+      properties:
+        id:
+          type: string
+        sourceNodeId:
+          type: string
+        targetNodeId:
+          type: string
+        mappingRules:
+          type: object
+        createdDate:
+          type: string
+          format: date-time
+
+    # ========================================================================
+    # SUPPORTING SCHEMAS
+    # ========================================================================
+
+    Applicant:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+        address:
+          type: string
+        contactInfo:
+          type: string
+        organization:
+          type: string
+        applicantType:
+          type: string
+          enum: [individual, business, government]
+
+    Location:
+      type: object
+      properties:
+        address:
+          type: string
+        parcel:
+          type: string
+        coordinates:
+          type: object
+          properties:
+            latitude:
+              type: number
+            longitude:
+              type: number
+
+    Stakeholder:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        role:
+          type: string
+        contactInfo:
+          type: string
+
+    Document:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        url:
+          type: string
+          format: uri
+        uploadedDate:
+          type: string
+          format: date-time
+
+    Fee:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        amount:
+          type: number
+        status:
+          type: string
+          enum: [pending, paid, waived]
+
+    Project:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        scope:
+          type: string
+
+    Condition:
+      type: object
+      properties:
+        id:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum: [pending, satisfied, waived]
+
+    Regulation:
+      type: object
+      properties:
+        id:
+          type: string
+        code:
+          type: string
+        section:
+          type: string
+        description:
+          type: string
+
+  # ==========================================================================
+  # MCP TOOLS CATALOG (for LLM Discovery)
+  # ==========================================================================
+  x-mcp-tools:
+    - name: list_endpoints
+      description: Discover all available API endpoints dynamically
+      inputSchema:
+        type: object
+        properties:
+          tag:
+            type: string
+            description: Filter by OpenAPI tag (Applications, Permits, etc.)
+      handler:
+        type: meta
+        action: enumerate_paths
+
+    - name: create_application
+      description: Create a new permit application with project details
+      inputSchema:
+        $ref: '#/components/schemas/ApplicationRequest'
+      handler:
+        method: POST
+        path: /applications
+
+    - name: get_application
+      description: Retrieve application details by ID
+      inputSchema:
+        type: object
+        required: [applicationId]
+        properties:
+          applicationId:
+            type: string
+      handler:
+        method: GET
+        path: /applications/{applicationId}
+
+    - name: submit_application
+      description: Submit an application for review
+      inputSchema:
+        type: object
+        required: [applicationId]
+        properties:
+          applicationId:
+            type: string
+      handler:
+        method: POST
+        path: /applications/{applicationId}/submit
+
+    - name: list_permits
+      description: List permits with optional filters
+      inputSchema:
+        type: object
+        properties:
+          type:
+            type: string
+            enum: [building, environmental, event, zoning, utility, transportation]
+          status:
+            type: string
+          limit:
+            type: integer
+      handler:
+        method: GET
+        path: /permits
+
+    - name: get_permit
+      description: Get permit details by ID
+      inputSchema:
+        type: object
+        required: [permitId]
+        properties:
+          permitId:
+            type: string
+      handler:
+        method: GET
+        path: /permits/{permitId}
+
+    - name: schedule_inspection
+      description: Schedule a building inspection for a permit
+      inputSchema:
+        $ref: '#/components/schemas/InspectionRequest'
+      handler:
+        method: POST
+        path: /inspections
+
+    - name: get_inspection
+      description: Get inspection details and findings
+      inputSchema:
+        type: object
+        required: [inspectionId]
+        properties:
+          inspectionId:
+            type: string
+      handler:
+        method: GET
+        path: /inspections/{inspectionId}
+
+    - name: submit_inspection_findings
+      description: Submit findings from an inspection
+      inputSchema:
+        type: object
+        required: [inspectionId, findings]
+        properties:
+          inspectionId:
+            type: string
+          findings:
+            $ref: '#/components/schemas/FindingRequest'
+      handler:
+        method: POST
+        path: /inspections/{inspectionId}/findings
+
+    - name: validate_ifc_model
+      description: Validate an IFC building model against building codes
+      inputSchema:
+        type: object
+        required: [modelUrl, code]
+        properties:
+          modelUrl:
+            type: string
+            format: uri
+            description: URL to IFC model file
+          code:
+            type: string
+            enum: [IRC2021, IBC2021, IECC2021]
+          jurisdiction:
+            type: string
+      handler:
+        method: POST
+        path: /validate/ifc
+
+    - name: validate_application_data
+      description: Validate permit application data for completeness and compliance
+      inputSchema:
+        $ref: '#/components/schemas/ApplicationRequest'
+      handler:
+        method: POST
+        path: /validate/application
+
+    - name: create_node
+      description: Create a new ontological node in the framework
+      inputSchema:
+        $ref: '#/components/schemas/NodeRequest'
+      handler:
+        method: POST
+        path: /nodes
+
+    - name: validate_node
+      description: Validate a node against its rules
+      inputSchema:
+        type: object
+        required: [nodeId]
+        properties:
+          nodeId:
+            type: string
+      handler:
+        method: POST
+        path: /nodes/{nodeId}/validate
+
+    - name: create_crosswalk
+      description: Create a mapping between two nodes (standard-to-standard crosswalk)
+      inputSchema:
+        type: object
+        required: [sourceNodeId, targetNodeId]
+        properties:
+          sourceNodeId:
+            type: string
+          targetNodeId:
+            type: string
+          mappingRules:
+            type: object
+      handler:
+        method: POST
+        path: /crosswalks
+
+  # ==========================================================================
+  # GRPC PROTOBUF DEFINITIONS
+  # ==========================================================================
+  x-grpc:
+    package: openpermit.v1
+    services:
+      - name: ApplicationService
+        methods:
+          - name: CreateApplication
+            inputType: ApplicationRequest
+            outputType: Application
+            description: Create a new permit application
+
+          - name: GetApplication
+            inputType: GetApplicationRequest
+            outputType: Application
+            description: Retrieve application by ID
+
+          - name: ListApplications
+            inputType: ListApplicationsRequest
+            outputType: ApplicationList
+            description: List applications with filters
+
+          - name: SubmitApplication
+            inputType: SubmitApplicationRequest
+            outputType: Application
+            description: Submit application for review
+
+      - name: PermitService
+        methods:
+          - name: GetPermit
+            inputType: GetPermitRequest
+            outputType: Permit
+
+          - name: ListPermits
+            inputType: ListPermitsRequest
+            outputType: PermitList
+
+      - name: InspectionService
+        methods:
+          - name: ScheduleInspection
+            inputType: InspectionRequest
+            outputType: Inspection
+
+          - name: GetInspection
+            inputType: GetInspectionRequest
+            outputType: Inspection
+
+          - name: SubmitFindings
+            inputType: SubmitFindingsRequest
+            outputType: Finding
+
+      - name: ValidationService
+        methods:
+          - name: ValidateIFC
+            inputType: ValidateIFCRequest
+            outputType: ValidationResult
+
+          - name: ValidateApplication
+            inputType: ApplicationRequest
+            outputType: ValidationResult
+
+      - name: NodeService
+        methods:
+          - name: CreateNode
+            inputType: NodeRequest
+            outputType: Node
+
+          - name: GetNode
+            inputType: GetNodeRequest
+            outputType: Node
+
+          - name: ValidateNode
+            inputType: ValidateNodeRequest
+            outputType: NodeValidationResult
+
+          - name: CreateCrosswalk
+            inputType: CreateCrosswalkRequest
+            outputType: Crosswalk
+
+    messages:
+      - name: GetApplicationRequest
+        fields:
+          - name: application_id
+            type: string
+            number: 1
+
+      - name: ApplicationList
+        fields:
+          - name: applications
+            type: Application
+            repeated: true
+            number: 1
+          - name: total
+            type: int32
+            number: 2
+
+      - name: ListApplicationsRequest
+        fields:
+          - name: status
+            type: string
+            number: 1
+          - name: limit
+            type: int32
+            number: 2
+          - name: offset
+            type: int32
+            number: 3
+
+      - name: SubmitApplicationRequest
+        fields:
+          - name: application_id
+            type: string
+            number: 1
+
+      - name: GetPermitRequest
+        fields:
+          - name: permit_id
+            type: string
+            number: 1
+
+      - name: PermitList
+        fields:
+          - name: permits
+            type: Permit
+            repeated: true
+            number: 1
+          - name: total
+            type: int32
+            number: 2
+
+      - name: ListPermitsRequest
+        fields:
+          - name: type
+            type: string
+            number: 1
+          - name: status
+            type: string
+            number: 2
+          - name: limit
+            type: int32
+            number: 3
+
+      - name: GetInspectionRequest
+        fields:
+          - name: inspection_id
+            type: string
+            number: 1
+
+      - name: SubmitFindingsRequest
+        fields:
+          - name: inspection_id
+            type: string
+            number: 1
+          - name: findings
+            type: FindingRequest
+            repeated: true
+            number: 2
+
+      - name: ValidateIFCRequest
+        fields:
+          - name: model_url
+            type: string
+            number: 1
+          - name: code
+            type: string
+            number: 2
+          - name: jurisdiction
+            type: string
+            number: 3
+
+      - name: GetNodeRequest
+        fields:
+          - name: node_id
+            type: string
+            number: 1
+
+      - name: ValidateNodeRequest
+        fields:
+          - name: node_id
+            type: string
+            number: 1
+
+      - name: CreateCrosswalkRequest
+        fields:
+          - name: source_node_id
+            type: string
+            number: 1
+          - name: target_node_id
+            type: string
+            number: 2
+          - name: mapping_rules
+            type: google.protobuf.Struct
+            number: 3
