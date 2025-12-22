@@ -20,8 +20,20 @@ The JSON inventory includes:
 // Example: src/content/catalog.ts (Astro)
 import catalog from '../docs/astro-card-catalog.json';
 
+const sectionOrder = {
+  'Overview': 1,
+  'Models': 2,
+  'Standards': 3,
+  'Answers': 4,
+  'Support': 5,
+  'Docs': 6
+};
+
 export const toc = catalog
-  .sort((a, b) => (a.section === b.section ? a.order - b.order : a.section.localeCompare(b.section)));
+  .sort((a, b) => {
+    const sectionDiff = sectionOrder[a.section] - sectionOrder[b.section];
+    return sectionDiff !== 0 ? sectionDiff : a.order - b.order;
+  });
 ```
 
 ```astro
