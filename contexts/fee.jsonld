@@ -1,0 +1,15 @@
+{
+  "@context": {
+    "PermitFee": "https://openpermit.dev/ontology/fee#PermitFee",
+    "feeCode": "https://openpermit.dev/ontology/fee#feeCode",
+    "accountCode": "https://openpermit.dev/ontology/account#accountCode",
+    "permitId": "https://openpermit.dev/ontology/core#permitId",
+    "jurisdiction": "https://openpermit.dev/ontology/core#jurisdiction",
+    "amount": "https://schema.org/price",
+    "currency": "https://schema.org/currency",
+    "basis": "https://openpermit.dev/ontology/fee#basis",
+    "quantity": "https://schema.org/quantitativeValue",
+    "anchor": "https://openpermit.dev/ontology/core#anchor",
+    "ts": "https://schema.org/DateTime"
+  }
+}

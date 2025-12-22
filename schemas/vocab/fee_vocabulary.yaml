@@ -1,0 +1,44 @@
+version: 0.1.0
+license: MIT
+namespace: openpermit.fee
+feeCodes:
+  - code: permit.base
+    label: Permit base fee
+    basis: flat
+    description: Base permit fee assessed upon application intake.
+  - code: permit.plan_review
+    label: Plan review fee
+    basis: flat|sqft|valuation
+    description: Fee assessed for plan review activities.
+  - code: inspection.initial
+    label: Initial inspection fee
+    basis: count
+    description: Fee assessed for the first inspection in a permit cycle.
+  - code: inspection.reinspection
+    label: Reinspection fee
+    basis: count
+    description: Fee assessed when reinspection is required due to prior failure.
+  - code: inspection.after_hours
+    label: After-hours inspection fee
+    basis: count
+    description: Fee assessed for inspection work scheduled outside normal hours.
+  - code: trade.electrical.base
+    label: Electrical trade base fee
+    basis: flat
+    description: Base fee for electrical trade-related permit activities.
+  - code: trade.plumbing.base
+    label: Plumbing trade base fee
+    basis: flat
+    description: Base fee for plumbing trade-related permit activities.
+  - code: trade.mechanical.base
+    label: Mechanical trade base fee
+    basis: flat
+    description: Base fee for mechanical trade-related permit activities.
+  - code: fire.alarm
+    label: Fire alarm system fee
+    basis: flat|device_count
+    description: Fee for review or inspection of fire alarm systems.
+  - code: fire.suppression
+    label: Fire suppression system fee
+    basis: flat|sqft
+    description: Fee for review or inspection of fire suppression systems.

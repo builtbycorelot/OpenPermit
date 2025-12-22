@@ -23,12 +23,13 @@ OpenPermit 2.0 is built from the ground up with:
 1. [Why OpenPermit?](#why-openpermit)
 2. [Quick-start](#quick-start)
 3. [Architecture](#architecture)
-4. [CKAN bridge](#ckan-bridge)
-5. [Standards Alignment](#standards-alignment)
-6. [Stakeholders & How to Engage](#stakeholders--how-to-engage)
-7. [Security](#security)
-8. [Contributing](#contributing)
-9. [Links & References](#links--references)
+4. [Reference Clients vs Civic Runtime](#reference-clients-vs-civic-runtime)
+5. [CKAN bridge](#ckan-bridge)
+6. [Standards Alignment](#standards-alignment)
+7. [Stakeholders & How to Engage](#stakeholders--how-to-engage)
+8. [Security](#security)
+9. [Contributing](#contributing)
+10. [Links & References](#links--references)
 
 ---
 
@@ -101,6 +102,17 @@ flowchart LR
 ```
 
 *The **CKAN API bridge** can push any validated permit dataset straight into a CKAN portal (e.g., `data.gov`-style), preserving metadata and access controls.*
+
+## Reference Clients vs Civic Runtime
+OpenPermit standardizes what permitting data means (ontology + linked data), not which software must be used. Systems of record remain sovereign. Implementers expose semantically aligned views (OData) and exchange durable artifacts (IFC/USD/glTF + JSON-LD). Reference clients (e.g., Unity Chat) validate spatial authoring without becoming the civic runtime. The ontology defines meaning; systems remain sovereign.
+
+- [Unity Chat reference authoring client](docs/architecture/unity-chat-reference-client.md)
+- [Canonical civic runtime and anti-lock-in policy](docs/architecture/civic-runtime-stack.md)
+- [Ontology node relationships and spatial anchors](docs/ontology/node-relationships.md)
+- [Ontology specification outline](docs/ontology/ontology-specification.md)
+- [Ontology index and JSON-LD context](docs/ontology/ontology-specification.md#machine-readable-source-of-truth)
+- [Dynamic docs pipeline](docs/architecture/dynamic-docs-pipeline.md)
+- [OData projection surface](docs/api/odata-projection.md)
 
 ## CKAN bridge
 The helper script in `integrations/ckan/` publishes a JSON‑LD file directly to a CKAN portal.

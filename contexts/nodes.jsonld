@@ -1,0 +1,16 @@
+{
+  "@context": {
+    "Node": "https://openpermit.dev/ontology/core#Node",
+    "type": "@type",
+    "asserts": "https://openpermit.dev/ontology/graph#asserts",
+    "targets": "https://openpermit.dev/ontology/graph#targets",
+    "justifiedBy": "https://openpermit.dev/ontology/graph#justifiedBy",
+    "resultsIn": "https://openpermit.dev/ontology/graph#resultsIn",
+    "mapsTo": "https://openpermit.dev/ontology/graph#mapsTo",
+    "supersedes": "https://openpermit.dev/ontology/graph#supersedes",
+    "derivedFrom": "https://openpermit.dev/ontology/graph#derivedFrom",
+    "routedTo": "https://openpermit.dev/ontology/graph#routedTo",
+    "anchor": "https://openpermit.dev/ontology/core#anchor",
+    "threadKey": "https://openpermit.dev/ontology/core#threadKey"
+  }
+}
