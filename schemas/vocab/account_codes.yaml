@@ -1,0 +1,25 @@
+version: 0.1.0
+license: MIT
+namespace: openpermit.accounts
+accounts:
+  - code: 4300.PERMIT_REVENUE
+    type: revenue
+    label: Permit revenue
+  - code: 4310.PLAN_REVIEW_REVENUE
+    type: revenue
+    label: Plan review revenue
+  - code: 4320.INSPECTION_REVENUE
+    type: revenue
+    label: Inspection revenue
+  - code: 4330.REINSPECTION_REVENUE
+    type: revenue
+    label: Reinspection revenue
+  - code: 4340.AFTER_HOURS_REVENUE
+    type: revenue
+    label: After-hours inspection revenue
+  - code: 4800.FEE_WAIVERS
+    type: contra_revenue
+    label: Fee waivers
+  - code: 4810.FEE_REFUNDS
+    type: contra_revenue
+    label: Fee refunds

@@ -1,0 +1,11 @@
+{
+  "@context": {
+    "InspectionEvent": "https://openpermit.dev/ontology/inspection#InspectionEvent",
+    "inspectionType": "https://openpermit.dev/ontology/inspection#inspectionType",
+    "result": "https://openpermit.dev/ontology/inspection#result",
+    "anchor": "https://openpermit.dev/ontology/core#anchor",
+    "ts": "https://schema.org/DateTime",
+    "inspector": "https://openpermit.dev/ontology/inspection#inspector",
+    "permitId": "https://openpermit.dev/ontology/core#permitId"
+  }
+}

@@ -37,6 +37,13 @@ OpenPermit is an open-source initiative that makes building and energy infrastru
 ### Technologists, Researchers & System Architects
 - [Technical Explanation](technical_explanation.md) — Architecture overview and integration patterns.
 - [Programmatic Interface & API Access](programmatic_interface.md) — Deep dive on endpoints and capabilities.
+- [Unity Chat Reference Authoring Client](architecture/unity-chat-reference-client.md) — Spatial assertion UI as a replaceable reference client.
+- [Canonical Civic Runtime Stack](architecture/civic-runtime-stack.md) — Open, browser-native runtime and anti-lock-in policy.
+- [Ontology: Spatial Anchors & Node Relationships](ontology/node-relationships.md) — Golden-thread relationships and chat anchoring.
+- [Ontology Specification Outline](ontology/ontology-specification.md) — Modular domains, classes, properties, and typed relationships.
+- [Ontology Index (YAML + JSON-LD)](ontology/ontology-specification.md#machine-readable-source-of-truth) — Single source of truth for classes, properties, and namespaces.
+- [Dynamic Docs Pipeline](architecture/dynamic-docs-pipeline.md) — Blueprint for generating docs from ontology, JSON-LD, OpenAPI, and MCP specs.
+- [OData Projection](api/odata-projection.md) — Enterprise query surface aligned with the ontology.
 - [Open Data Layer Schema](../open-data-layer/schema/validation.shacl) — SHACL shapes governing data quality.
 - [Schema Validation Script](../open-data-layer/schema/validate_schema.py) — Run automated checks against payloads.
 - [Core Engine Worker](../src/core/worker.js) — Background processing logic for node operations.
@@ -46,6 +53,10 @@ OpenPermit is an open-source initiative that makes building and energy infrastru
 - **Community & Engagement.** [Public Engagement Program](public_engagement.md) · [Project Discussion Board](https://github.com/SheetPros/OpenPermit/discussions)
 - **Programs & Pilots.** [Remote Inspection Playbook](remote_inspections.md) · [Spotsylvania Innovation Sandbox](../example/spotsylvania-innovation-sandbox.html)
 - **Learning Resources.** [Example Payloads](../example) · [CLI Documentation](../cli/README.md) · [Node Framework Demo](../example/index.html)
+- **Standards & Vocabularies.** [Fee Vocabulary](standards/fee-vocabulary.md) · [Inspection Vocabulary](standards/inspection-vocabulary.md) · [Account Model](standards/account-model.md)
+- **Adapters & Providers.** [Provider Adapter Contract](adapters/provider-adapter-contract.md) · [OData Projection](api/odata-projection.md)
+- **Ontology Contexts.** [Node Relationships](ontology/node-relationships.md) · [JSON-LD Contexts](../contexts)
+- **Knowledge Packs.** [Overview](knowledge-packs/overview.md)
 - **Research & References.** [References](references.md) · [NIEM ↔ NFL Alignment (6.0)](niem-alignment-6.0.md) · [ISO Standards](iso_standard.md)
 
 ## Get Involved

@@ -1,0 +1,37 @@
+version: 0.1.0
+license: MIT
+namespace: openpermit.inspection
+inspectionTypes:
+  - code: inspection.footing
+    label: Footing inspection
+    description: Inspection of footings prior to foundation placement.
+  - code: inspection.foundation
+    label: Foundation inspection
+    description: Inspection of foundation walls, drainage, and reinforcement.
+  - code: inspection.framing
+    label: Framing inspection
+    description: Inspection of framing prior to insulation or finishes.
+  - code: inspection.rough_electrical
+    label: Rough electrical inspection
+    description: Inspection of electrical rough-in prior to concealment.
+  - code: inspection.rough_plumbing
+    label: Rough plumbing inspection
+    description: Inspection of plumbing rough-in prior to concealment.
+  - code: inspection.rough_mechanical
+    label: Rough mechanical inspection
+    description: Inspection of mechanical rough-in prior to concealment.
+  - code: inspection.insulation
+    label: Insulation inspection
+    description: Inspection of insulation prior to drywall or finishes.
+  - code: inspection.final_building
+    label: Final building inspection
+    description: Final inspection covering building elements prior to occupancy.
+  - code: inspection.final_trade
+    label: Final trade inspection
+    description: Final inspection for individual trades prior to completion.
+results:
+  - code: pass
+  - code: fail
+  - code: partial
+  - code: cancelled
+  - code: reschedule_required
