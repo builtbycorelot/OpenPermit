@@ -6,7 +6,12 @@
 !LICENSE
 !README.md
 
-# Public site - only track the main index
+# Public site source
 !public site/
 public site/*
 !public site/index.html
+
+# GitHub Pages (served from /docs)
+!docs/
+docs/*
+!docs/index.html
