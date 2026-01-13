@@ -1,7 +1,17 @@
-node_modules/
-coverage/
-dist/
-__pycache__/
-*.pyc
-*.log
+# Ignore everything
+*
 
+# Except these files
+!.gitignore
+!LICENSE
+!README.md
+
+# Public site source
+!public site/
+public site/*
+!public site/index.html
+
+# GitHub Pages (served from /docs)
+!docs/
+docs/*
+!docs/index.html
