@@ -1,7 +1,12 @@
-node_modules/
-coverage/
-dist/
-__pycache__/
-*.pyc
-*.log
+# Ignore everything
+*
 
+# Except these files
+!.gitignore
+!LICENSE
+!README.md
+
+# Public site - only track the main index
+!public site/
+public site/*
+!public site/index.html
