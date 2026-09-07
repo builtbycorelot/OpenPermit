@@ -1,9 +1,27 @@
-# Standalone repository hygiene checks for OpenPermit / ORI.
-#
-# ORI's executable conformance and reference-node tests live in
-# .github/workflows/ori-conformance.yml. This workflow provides independent
-# repository-level secret, conflict and workflow-lint gates.
 name: pipeline
+
+# The CORELOT standard gate set, INLINE — the one repo in the estate that cannot
+# call the shared chain.
+#
+# ⚠️ DO NOT "fix" this into `uses: corelotorg/.github/.../pipeline.yml@v1`.
+# OpenPermit is PUBLIC and that hub is PRIVATE. GitHub refuses a public repo's
+# call into a private repo's reusable workflow at RUN-CREATION time, so the run
+# is a startup_failure: zero jobs, no log, no annotation, and the workflow's
+# PATH shown where its name should be. Measured here on 2026-09-07, run
+# 34074245061 — the attempt that produced this file.
+#
+# `ubuntu-latest`, not `rig`, for the same reason: self-hosted runners must not
+# serve a public repo, where a fork PR would run unreviewed code on the node
+# that builds the rest of the estate.
+#
+# So this file duplicates gates on purpose, and the duplication is the cost of
+# the visibility boundary rather than drift. Keep it in step with
+# corelotorg/.github `.github/workflows/rough-checks.yml` + `semgrep.yml`:
+# same gates, same pinned versions, same blocking/advisory split. Unifying for
+# real means making the hub public — a decision, not a refactor.
+#
+# The executable ORI conformance and reference-node tests are ori-conformance.yml.
+# This file is repository hygiene only.
 
 on:
   pull_request:
@@ -23,12 +41,33 @@ jobs:
   verify:
     name: Rough checks
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     env:
       GITLEAKS_VERSION: "8.18.4"
+      GITLEAKS_SHA256: ba6dbb656933921c775ee5a2d1c13a91046e7952e9d919f9bac4cec61d628e7d
       ACTIONLINT_VERSION: "1.7.7"
+      ACTIONLINT_SHA256: 023070a287cd8cccd71515fedc843f1985bf96c436b7effaecce67290e7e0757
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+      # ADVISORY. Was absent entirely before this file.
+      - name: Stub-propagation gate
+        run: |
+          TOKENS='\b(TODO|FIXME|XXX|HACK|STUB|NotImplementedError|NotImplemented)\b|raise[[:space:]]+NotImplemented'
+          PHRASES='not[ _-]?implemented|unimplemented'
+          FILES=$(git ls-files -- '*.ts' '*.tsx' '*.js' '*.jsx' '*.mjs' '*.cjs' '*.py' '*.go' '*.rs' '*.java' '*.rb' '*.sh' '*.sql' \
+            | grep -vE '(^|/)(node_modules|dist|build|vendor|coverage|\.venv|venv|__pycache__)/' \
+            | grep -vE '(^|/)(__tests__|tests|test|__mocks__)/|\.(test|spec)\.' || true)
+          rc=0
+          for f in $FILES; do
+            [ -f "$f" ] || continue
+            if { grep -nE "$TOKENS" "$f"; grep -niE "$PHRASES" "$f"; } 2>/dev/null | sort -u | grep -q .; then
+              echo "::warning file=$f::stub/placeholder marker"
+              rc=1
+            fi
+          done
+          [ "$rc" -eq 0 ] && echo "OK — no stub/placeholder markers" \
+            || echo "::warning::stub/placeholder markers found (advisory)"
 
       - name: Merge-conflict markers
         run: |
@@ -37,39 +76,93 @@ jobs:
           fi
           echo "OK — no conflict markers"
 
+      # ADVISORY. Was absent entirely before this file.
+      - name: Large-file guard
+        run: |
+          limit=$(( 5 * 1024 * 1024 ))
+          git ls-files > "${RUNNER_TEMP}/_all.txt"
+          : > "${RUNNER_TEMP}/_big.txt"
+          while IFS= read -r f; do
+            [ -f "$f" ] || continue
+            sz=$(wc -c < "$f")
+            [ "$sz" -gt "$limit" ] && echo "  $f ($sz bytes)" >> "${RUNNER_TEMP}/_big.txt"
+          done < "${RUNNER_TEMP}/_all.txt"
+          if [ -s "${RUNNER_TEMP}/_big.txt" ]; then
+            echo "::warning::tracked files exceed 5MB (advisory — consider Git LFS):"
+            cat "${RUNNER_TEMP}/_big.txt"
+          else
+            echo "OK — no files over 5MB"
+          fi
+
       - name: Forbidden secret-bearing files
         run: |
           hits=$(git ls-files \
-            | grep -nE '\.(pem|key|p12|pfx|keystore|jks)$|(^|/)\.env$|(^|/)\.env\.[^/]+$|(^|/)id_rsa$|(^|/)age\.key$' \
-            | grep -vE '\.(example|sample|template)$' || true)
+            | grep -nE '\.(pem|key|p12|pfx|dpapi|keystore|jks)$|(^|/)\.env$|(^|/)\.env\.[^/]+$|(^|/)id_rsa$|(^|/)age\.key$' \
+            | grep -vE '\.(example|sample|template|dist)$' || true)
           if [ -n "$hits" ]; then
             echo "::error::files that look like plaintext secrets are tracked:"
             echo "$hits"; exit 1
           fi
           echo "OK — no forbidden secret-bearing files"
 
+      # The expected sha256 is PINNED IN THIS FILE, not fetched from the release
+      # alongside the asset. Whoever can move the asset can move a checksums.txt
+      # published with it, so a run-time fetch proves the transfer and not the
+      # artifact (PINNING.md tier 5). RUNNER_TEMP, not /tmp: per-job, cleaned
+      # between jobs, and never shared with a concurrent one.
       - name: Secret scan (gitleaks)
         run: |
-          asset="gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
-          base="https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}"
-          curl -fsSLo "/tmp/${asset}" "${base}/${asset}"
-          curl -fsSLo /tmp/gitleaks_checksums.txt "${base}/gitleaks_${GITLEAKS_VERSION}_checksums.txt"
-          grep "  ${asset}$" /tmp/gitleaks_checksums.txt > /tmp/gitleaks_asset.sha256
-          (cd /tmp && sha256sum -c gitleaks_asset.sha256)
-          tar -xzf "/tmp/${asset}" -C /tmp gitleaks
-          chmod +x /tmp/gitleaks
-          /tmp/gitleaks detect --no-git --source . --redact -v --no-banner --exit-code 1 \
-            || { echo "::error::gitleaks detected secrets. Findings above name file:rule:line (values redacted). False positive -> .gitleaks.toml allowlist."; exit 1; }
+          set -e
+          TGZ="${RUNNER_TEMP}/gitleaks.tgz"; BIN="${RUNNER_TEMP}/gitleaks"
+          curl -fsSL --retry 3 --retry-delay 2 --retry-all-errors --connect-timeout 20 --max-time 120 \
+            -o "$TGZ" "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+          echo "${GITLEAKS_SHA256}  ${TGZ}" | sha256sum -c - \
+            || { echo "::error::gitleaks ${GITLEAKS_VERSION} checksum MISMATCH — refusing to execute the download."; exit 1; }
+          tar -xzO -f "$TGZ" gitleaks > "$BIN"; rm -f "$TGZ"; chmod +x "$BIN"
+          "$BIN" version >/dev/null 2>&1 \
+            || { echo "::error::gitleaks failed to INSTALL or execute — this is not a scan result."; exit 1; }
+          set +e
+          "$BIN" detect --no-git --source . --redact -v --no-banner --exit-code 1
+          rc=$?
+          if [ "$rc" = "1" ]; then
+            echo "::error::gitleaks detected secrets. Findings above name file:rule:line (values redacted). False positive -> .gitleaks.toml allowlist."
+            exit 1
+          elif [ "$rc" != "0" ]; then
+            echo "::error::gitleaks exited $rc — the SCAN did not complete. Not a leak."
+            exit 1
+          fi
           echo "OK — gitleaks clean"
 
       - name: Lint workflows (actionlint)
         run: |
-          asset="actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz"
-          base="https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}"
-          curl -fsSLo "/tmp/${asset}" "${base}/${asset}"
-          curl -fsSLo /tmp/actionlint_checksums.txt "${base}/actionlint_${ACTIONLINT_VERSION}_checksums.txt"
-          grep "  ${asset}$" /tmp/actionlint_checksums.txt > /tmp/actionlint_asset.sha256
-          (cd /tmp && sha256sum -c actionlint_asset.sha256)
-          tar -xzf "/tmp/${asset}" -C /tmp actionlint
-          chmod +x /tmp/actionlint
-          /tmp/actionlint -color
+          set -e
+          TGZ="${RUNNER_TEMP}/actionlint.tgz"; BIN="${RUNNER_TEMP}/actionlint"
+          curl -fsSL --retry 3 --retry-delay 2 --retry-all-errors --connect-timeout 20 --max-time 120 \
+            -o "$TGZ" "https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}/actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz"
+          echo "${ACTIONLINT_SHA256}  ${TGZ}" | sha256sum -c - \
+            || { echo "::error::actionlint ${ACTIONLINT_VERSION} checksum MISMATCH — refusing to execute the download."; exit 1; }
+          tar -xzO -f "$TGZ" actionlint > "$BIN"; rm -f "$TGZ"; chmod +x "$BIN"
+          "$BIN" -color
+
+  # ADVISORY. Was absent entirely before this file. Version-pinned: an unpinned
+  # install means a different SAST engine can arrive on any run, so a clean
+  # baseline today says nothing about tomorrow's.
+  sast:
+    name: SAST (semgrep)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      SEMGREP_VERSION: "1.176.0"
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.12"
+      - name: Install semgrep
+        run: |
+          python -m venv "${RUNNER_TEMP}/sg"
+          "${RUNNER_TEMP}/sg/bin/python" -m pip install --quiet --disable-pip-version-check "semgrep==${SEMGREP_VERSION}"
+      - name: Scan
+        run: |
+          "${RUNNER_TEMP}/sg/bin/semgrep" scan --config p/default --config p/secrets --error --quiet \
+            || echo "::warning::semgrep findings (advisory) — review, then make this blocking once the baseline is clean"
