@@ -1,9 +1,11 @@
-# Standalone repository hygiene checks for OpenPermit / ORI.
-#
-# ORI's executable conformance and reference-node tests live in
-# .github/workflows/ori-conformance.yml. This workflow provides independent
-# repository-level secret, conflict and workflow-lint gates.
 name: pipeline
+
+# The CORELOT standard pipeline — one repo, one file, one workflow.
+# https://github.com/corelotorg/.github#readme
+#
+# `runner: rig` is the in-cluster ARC org pool on Charlie. GitHub-hosted minutes
+# bill against the monthly cap; the pool does not, and it carries the node-local
+# tool cache, so the gates below cost seconds rather than minutes.
 
 on:
   pull_request:
@@ -15,61 +17,22 @@ on:
 permissions:
   contents: read
 
+# Cancel a superseded PR run rather than let it hold one of the pool's 12 slots.
+# Push runs are never cancelled: a lane build is the record of what shipped.
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   verify:
-    name: Rough checks
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    env:
-      GITLEAKS_VERSION: "8.18.4"
-      ACTIONLINT_VERSION: "1.7.7"
-    steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
-
-      - name: Merge-conflict markers
-        run: |
-          if git grep -nE '^(<<<<<<< |>>>>>>> )' -- . ':(exclude)*.md'; then
-            echo "::error::unresolved merge-conflict markers in tracked files"; exit 1
-          fi
-          echo "OK — no conflict markers"
-
-      - name: Forbidden secret-bearing files
-        run: |
-          hits=$(git ls-files \
-            | grep -nE '\.(pem|key|p12|pfx|keystore|jks)$|(^|/)\.env$|(^|/)\.env\.[^/]+$|(^|/)id_rsa$|(^|/)age\.key$' \
-            | grep -vE '\.(example|sample|template)$' || true)
-          if [ -n "$hits" ]; then
-            echo "::error::files that look like plaintext secrets are tracked:"
-            echo "$hits"; exit 1
-          fi
-          echo "OK — no forbidden secret-bearing files"
-
-      - name: Secret scan (gitleaks)
-        run: |
-          asset="gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
-          base="https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}"
-          curl -fsSLo "/tmp/${asset}" "${base}/${asset}"
-          curl -fsSLo /tmp/gitleaks_checksums.txt "${base}/gitleaks_${GITLEAKS_VERSION}_checksums.txt"
-          grep "  ${asset}$" /tmp/gitleaks_checksums.txt > /tmp/gitleaks_asset.sha256
-          (cd /tmp && sha256sum -c gitleaks_asset.sha256)
-          tar -xzf "/tmp/${asset}" -C /tmp gitleaks
-          chmod +x /tmp/gitleaks
-          /tmp/gitleaks detect --no-git --source . --redact -v --no-banner --exit-code 1 \
-            || { echo "::error::gitleaks detected secrets. Findings above name file:rule:line (values redacted). False positive -> .gitleaks.toml allowlist."; exit 1; }
-          echo "OK — gitleaks clean"
-
-      - name: Lint workflows (actionlint)
-        run: |
-          asset="actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz"
-          base="https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}"
-          curl -fsSLo "/tmp/${asset}" "${base}/${asset}"
-          curl -fsSLo /tmp/actionlint_checksums.txt "${base}/actionlint_${ACTIONLINT_VERSION}_checksums.txt"
-          grep "  ${asset}$" /tmp/actionlint_checksums.txt > /tmp/actionlint_asset.sha256
-          (cd /tmp && sha256sum -c actionlint_asset.sha256)
-          tar -xzf "/tmp/${asset}" -C /tmp actionlint
-          chmod +x /tmp/actionlint
-          /tmp/actionlint -color
+    uses: corelotorg/.github/.github/workflows/pipeline.yml@v1
+    with:
+      # `none`, deliberately. The Python here is two separate projects
+      # (conformance/, reference-node/) with a requirement file each and no root
+      # manifest, so py-ci's single working-directory cannot cover both — it would
+      # fail preflight at the root or test only half the tree. The ORI harness in
+      # ori-conformance.yml already installs both and runs validate.py, py_compile
+      # and the precedence-graph tests; this caller adds the gates that were
+      # missing entirely.
+      lang: none
+      runner: rig
